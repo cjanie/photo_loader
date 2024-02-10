@@ -1,12 +1,16 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import FileSelectionComponant from './componants/FileSelectionComponant'
 
 export default function Home() {
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+        <FileSelectionComponant/>
+        
         <a className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
             href="/server"
             target="_blank"
@@ -16,8 +20,10 @@ export default function Home() {
             <code className="font-mono font-bold">/server</code>
           </button>
         </a>
+
+        
       </div>
-      
+
     </main>
   )
 }
