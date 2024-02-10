@@ -1,7 +1,7 @@
 import { tempFilePathsStorage } from "../api/tempFilePathStorage"
 import { tempFileRepository } from "../gateways/TempFileRepository"
 
-export default function FileFormComponant() {
+export default function FileFormServerComponant() {
 
     async function upload(data:FormData) {
         'use server'

@@ -1,35 +1,28 @@
-import { join } from "path"
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import { useState } from "react"
-export default function FileSelectionComponant() {
+import { storage } from "../firebase/firebase-config"
+
+export default function FileUploadComponant() {
 
     const [file, setFile] = useState<File>()
-    const [path, setPath] = useState<string>()
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        
+        upload()
+    }
+
+    const upload = async () => {
         if(!file) return
 
-        try {
+        console.log(file)
 
-            const data = new FormData()
-            data.set('file', file)
+        const fileRef = ref(storage, 'files/' + file.name)
+        uploadBytes(fileRef, file).then((data) => {
+            getDownloadURL(data.ref).then((url) => console.log(url))
+        })
 
-            const res = await fetch('api/upload', {
-                method: 'POST',
-                body: data
-            })
-
-            const path = join('/', 'temp', file.name)
-            setPath(path)
-
-            // Handle the res error
-            if(!res.ok) throw new Error(await res.text())
-
-        } catch (e: any) {
-            // Handle errors
-            console.error(e)
-        }
-    }
+    } 
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -46,8 +39,6 @@ export default function FileSelectionComponant() {
           </div>
 
           <p>{file?.name}</p>
-
-          <p>{path}</p>
           
         </main>)
 }

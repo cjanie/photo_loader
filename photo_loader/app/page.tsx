@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import FileSelectionComponant from './componants/FileSelectionComponant'
+import FileUploadComponant from './componants/FileUploadComponant'
 
 export default function Home() {
 
@@ -9,7 +9,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <FileSelectionComponant/>
+        <FileUploadComponant/>
         
         <a className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
             href="/server"
