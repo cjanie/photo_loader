@@ -1,10 +1,14 @@
 import { UploadResult, getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import { storage } from "./firebase-config"
+import { UploadGateway, UploadResponse } from "../gateways/UploadGateway"
 
-export const firebaseUploadAdapter = {
-    upload: async (file: File): Promise<string> => {
+export const firebaseUploadAdapter: UploadGateway = {
+    upload: async (file: File): Promise<UploadResponse> => {
         const fileRef = ref(storage, 'files/' + file.name)
         const uploadResult: UploadResult = await uploadBytes(fileRef, file)
-        return getDownloadURL(uploadResult.ref)
+        const downloadUrl = await getDownloadURL(uploadResult.ref)
+        return {
+            downloadUrl: downloadUrl
+        }
     }
 }

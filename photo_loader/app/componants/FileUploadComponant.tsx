@@ -19,10 +19,8 @@ export default function FileUploadComponant() {
 
         console.log(file)
 
-        const url = await firebaseUploadAdapter.upload(file)
-        setUploadResultUrl(url)
-        console.log(url)
-
+        const uploadResponse = await firebaseUploadAdapter.upload(file)
+        setUploadResultUrl(uploadResponse.downloadUrl)
     }
 
     return (
