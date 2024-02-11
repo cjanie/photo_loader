@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import FileUploadComponant from './componants/FileUploadComponant'
+import FileDownloadComponant from './componants/FileDownloadComponant'
 
 export default function Home() {
 
@@ -20,6 +21,7 @@ export default function Home() {
             <code className="font-mono font-bold">/server</code>
           </button>
         </a>
+        <FileDownloadComponant/>
 
         
       </div>

@@ -5,6 +5,7 @@ import { storage } from "../firebase/firebase-config"
 export default function FileUploadComponant() {
 
     const [file, setFile] = useState<File>()
+    const [uploadResultUrl, setUploadResultUrl] = useState<string>()
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -18,8 +19,11 @@ export default function FileUploadComponant() {
         console.log(file)
 
         const fileRef = ref(storage, 'files/' + file.name)
-        uploadBytes(fileRef, file).then((data) => {
-            getDownloadURL(data.ref).then((url) => console.log(url))
+        uploadBytes(fileRef, file).then((uploadResult) => {
+            getDownloadURL(uploadResult.ref).then((url) => {
+              setUploadResultUrl(url)
+              console.log(url)
+            })
         })
 
     } 
@@ -34,11 +38,17 @@ export default function FileUploadComponant() {
                 name="file" 
                 onChange={(e) => setFile(e.target.files?.[0])}
                 />
+
               <input type="submit" value="Upload"/>
             </form>
           </div>
 
-          <p>{file?.name}</p>
+          <div>
+            <h1>Upload Result Url</h1>
+            <a href={uploadResultUrl}>
+              <p>{uploadResultUrl}</p>
+            </a>
+          </div>
           
         </main>)
 }

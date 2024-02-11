@@ -1,24 +1,55 @@
-import { getDownloadURL, ref } from "firebase/storage"
+import { StorageReference, getDownloadURL, list, ref } from "firebase/storage"
 import { storage } from "../firebase/firebase-config"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+ 
+
+import firebase from "firebase/app";
+import "firebase/storage";
+import Error from "next/error";
+
 
 export default function FileDownloadComponant() {
 
-    const [fileUrl, setFileUrl] = useState<string>()
+    const [items, setItems] = useState<string[]>()
+    const [error, setError] = useState<unknown | null>()
 
-    const download = async () => {
-        const fileRef = ref(storage, 'files/')
-        getDownloadURL(fileRef).then(url => setFileUrl(url))
-        
-    }
+
+    const path = `files/`;
+    const reference: StorageReference = ref(storage, path);
+
+    useEffect(() => {
+        async () => {
+            try {
+
+                const result = await list(reference);
+ 
+                const items = await Promise.all(
+                    result.items.map(async (item) => {
+                    const url = await getDownloadURL(item);
+ 
+                    return url;
+                })
+          
+                );
+                setItems(items)
+
+            } catch (e: unknown) {
+                setError(e)
+            }
+
+        }
+    }, [reference, setItems, setError])
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
     
           <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-            <p>{fileUrl}</p>
+            <p>{items}</p>
+            <p>{items?.length}</p>
+            {error? <p>error</p>: null}
           </div>
           
         </main>
         )
 }
+
