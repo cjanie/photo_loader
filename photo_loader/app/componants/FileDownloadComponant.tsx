@@ -1,11 +1,7 @@
 import { StorageReference, getDownloadURL, list, ref } from "firebase/storage"
 import { storage } from "../firebase/firebase-config"
 import { useEffect, useState } from "react"
- 
-
-import firebase from "firebase/app";
 import "firebase/storage";
-import Error from "next/error";
 
 
 export default function FileDownloadComponant() {

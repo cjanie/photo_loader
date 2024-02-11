@@ -1,6 +1,7 @@
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
+import { StorageReference, getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import { useState } from "react"
 import { storage } from "../firebase/firebase-config"
+import { firebaseUploadAdapter } from "../firebase/firebaseUploadAdapter"
 
 export default function FileUploadComponant() {
 
@@ -18,15 +19,11 @@ export default function FileUploadComponant() {
 
         console.log(file)
 
-        const fileRef = ref(storage, 'files/' + file.name)
-        uploadBytes(fileRef, file).then((uploadResult) => {
-            getDownloadURL(uploadResult.ref).then((url) => {
-              setUploadResultUrl(url)
-              console.log(url)
-            })
-        })
+        const url = await firebaseUploadAdapter.upload(file)
+        setUploadResultUrl(url)
+        console.log(url)
 
-    } 
+    }
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
