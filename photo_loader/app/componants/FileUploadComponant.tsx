@@ -1,7 +1,11 @@
 import { StorageReference, getDownloadURL, ref, uploadBytes } from "firebase/storage"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { storage } from "../firebase/firebase-config"
 import { firebaseUploadAdapter } from "../firebase/firebaseUploadAdapter"
+import { Path, tempFileRepository } from "../gateways/TempFileRepository"
+import { tempFilePathsStorage } from "../api/tempFilePathStorage"
+import { set } from "firebase/database"
+import Image from "next/image"
 
 export default function FileUploadComponant() {
 
@@ -36,6 +40,12 @@ export default function FileUploadComponant() {
 
               <input type="submit" value="Upload"/>
             </form>
+            {
+              file ? 
+                <p>{file.name}</p>: null
+              
+            }
+            
           </div>
 
           <div>
