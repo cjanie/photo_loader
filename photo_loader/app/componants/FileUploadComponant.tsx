@@ -6,6 +6,8 @@ import { Path, tempFileRepository } from "../gateways/TempFileRepository"
 import { tempFilePathsStorage } from "../api/tempFilePathStorage"
 import { set } from "firebase/database"
 import Image from "next/image"
+import ImageComponant from "./ImageComponant"
+import PreviewImageComponant from "./ImageComponant"
 
 export default function FileUploadComponant() {
 
@@ -19,7 +21,7 @@ export default function FileUploadComponant() {
         removeFile()
     }
 
-    const imageChanged = (e: ChangeEvent<HTMLInputElement>) => {
+    const fileChanged = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
         setFile(e.target.files[0]);
       }
@@ -42,39 +44,30 @@ export default function FileUploadComponant() {
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
     
           <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-            <form onSubmit={onSubmit} className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+            <form onSubmit={onSubmit}>
               <input 
                 accept="image/*"
                 type="file" 
                 name="file" 
-                onChange={(e) => imageChanged(e)}
+                onChange={(e) => fileChanged(e)}
                 />
                 {
-              file && 
-              (<div>
-                <Image src={URL.createObjectURL(file)} alt={"preview image"} width={600} height={600}/>
-              </div>)
-            }
-              <input type="submit" value="Upload"/>
+                  file && 
+                  (<div>
+                    <PreviewImageComponant src={URL.createObjectURL(file)} alt={"preview image " + file.name}/>
+                    <button type="submit" value="Upload"/>
+                  </div>)
+                }
             </form>
             {
-              file ? 
-                <p>{file.name}</p>: null
-              
+              uploadResultUrl && 
+              (<div>
+                  <h1>Upload Result Url</h1>
+                  <a href={uploadResultUrl}>
+                    <p>{uploadResultUrl}</p>
+                  </a>  
+              </div>)
             }
-            
-          </div>
-          
-            
-              
-            
-
-          <div>
-            <h1>Upload Result Url</h1>
-            <a href={uploadResultUrl}>
-              <p>{uploadResultUrl}</p>
-            </a>
-          </div>
-          
+          </div> 
         </main>)
 }

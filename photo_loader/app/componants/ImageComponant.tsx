@@ -4,8 +4,9 @@ interface ImageProps {
     src: string
     alt: string
 }
-export default function ImageComponant(props: ImageProps) {
+
+export default function PreviewImageComponant(props: ImageProps) {
     return (
-        <Image src={props.src} alt={props.alt} width={100} height={100}/>
+        <Image src={props.src} alt={props.alt} width={600} height={600}/>
     )
 }
