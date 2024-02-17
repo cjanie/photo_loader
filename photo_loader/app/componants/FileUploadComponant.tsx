@@ -1,5 +1,4 @@
 import { ChangeEvent, useState } from "react"
-import { firebaseUploadAdapter } from "../firebase/firebaseUploadAdapter"
 import ImageComponant from "./ImageComponant"
 import LinkComponant from "./LinkComponant"
 import { UploadGateway } from "../gateways/UploadGateway"
@@ -17,7 +16,6 @@ export default function FileUploadComponant(props: FileUpload) {
         e.preventDefault()
         
         await upload()
-        removeFile()
     }
 
     const onFileInputChanged = (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,10 +23,6 @@ export default function FileUploadComponant(props: FileUpload) {
         setFile(e.target.files[0]);
       }
     }
-
-    const removeFile = () => {
-      setFile(undefined)
-    };
 
     const upload = async () => {
         if(!file) return
