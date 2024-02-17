@@ -4,11 +4,15 @@ import FileDownloadComponant from './componants/FileDownloadComponant'
 import { di } from './di'
 import { storage } from './firebase/firebase-config'
 import { ListResult, listAll, ref } from 'firebase/storage'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
 
   const [fileNames, setFileNames] = useState<string[]>([])
+
+  useEffect(()=> {
+    filesStorage().then(fileNames => setFileNames(fileNames)) }
+  , [fileNames])
 
   const filesStorage = async () => {
 
@@ -22,9 +26,9 @@ export default function Home() {
       console.log(storageReference.name + " full path = " + storageReference.fullPath)
       storedFilesNames.push(storageReference.name)
     })
-    setFileNames(storedFilesNames)
+    return storedFilesNames
   }
-  filesStorage()
+  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
