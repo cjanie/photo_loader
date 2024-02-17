@@ -2,6 +2,7 @@
 import FileUploadComponant from './componants/FileUploadComponant'
 import FileDownloadComponant from './componants/FileDownloadComponant'
 import { di } from './di'
+import { fileNameQuery } from './firebase/db/fileNameQuery'
 
 export default function Home() {
   return (
@@ -9,7 +10,10 @@ export default function Home() {
 
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <FileUploadComponant uploadGateway={di.uploadGateway}/>
-        <FileDownloadComponant downloadGateway={di.downloadGateway}/>
+        {
+          fileNameQuery.getFilesNames().map(fileName => <FileDownloadComponant downloadGateway={di.downloadGateway} fileName={fileName}/>)
+        }
+        
       </div>
 
     </main>

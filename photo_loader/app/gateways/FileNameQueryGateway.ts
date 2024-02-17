@@ -1,0 +1,4 @@
+interface FileNameQueryGateway {
+    getFilesNames: () => string[]
+}
+
