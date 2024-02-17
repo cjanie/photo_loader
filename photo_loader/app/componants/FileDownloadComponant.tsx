@@ -1,30 +1,26 @@
-import { StorageReference, getDownloadURL, list, ref } from "firebase/storage"
-import { storage } from "../firebase/firebase-config"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import "firebase/storage";
 import ImageComponant from "./ImageComponant";
+import { DownloadGateway } from "../gateways/DownloadGateway";
 
 interface FileDownload {
-    url: string
+    downloadGateway: DownloadGateway
 }
 
-export default function FileDownloadComponant() {
+export default function FileDownloadComponant(props : FileDownload) {
     
     const [downloadUrl, setDownLoadUrl] = useState<string>()
 
-    
-    // const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/b/bucket/o/images%20stars.jpg')
-
-    const getUrl = () => {
-        //const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/v0/b/uploadtravelfile.appspot.com/o/files%2FBlondie.png?alt=media&token=e0a431c3-40b5-4f81-b144-d3248312d9f8')
-        getDownloadURL(ref(storage, 'files/Blondie.png')).then((url) => {
+    const getUrl = () => {        
+        props.downloadGateway.getUrl().then((url) => {
             setDownLoadUrl(url)
         })
     }
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <button onClick={getUrl}>DownloadImage</button>
+            <button className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
+                onClick={getUrl}>Download</button>
             <div>
                 {
                     downloadUrl && (

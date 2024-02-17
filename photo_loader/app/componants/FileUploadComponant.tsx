@@ -1,9 +1,14 @@
-import { ChangeEvent, useRef, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { firebaseUploadAdapter } from "../firebase/firebaseUploadAdapter"
 import ImageComponant from "./ImageComponant"
 import LinkComponant from "./LinkComponant"
+import { UploadGateway } from "../gateways/UploadGateway"
 
-export default function FileUploadComponant() {
+interface FileUpload {
+  uploadGateway: UploadGateway
+}
+
+export default function FileUploadComponant(props: FileUpload) {
 
     const [file, setFile] = useState<File | undefined>()
     const [uploadResultUrl, setUploadResultUrl] = useState<string>()
@@ -30,7 +35,7 @@ export default function FileUploadComponant() {
 
         console.log(file)
 
-        const uploadResponse = await firebaseUploadAdapter.upload(file)
+        const uploadResponse = await props.uploadGateway.upload(file)
         setUploadResultUrl(uploadResponse.downloadUrl)
     }
 
@@ -52,7 +57,8 @@ export default function FileUploadComponant() {
                       <ImageComponant src={URL.createObjectURL(file)} alt={"preview image " + file.name}/>
                     </div>
                     <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-                      <button type="submit">Upload</button>
+                      <button className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
+                        type="submit">Upload</button>
                     </div>
                   </div>)
                 }
