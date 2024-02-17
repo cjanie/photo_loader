@@ -1,6 +1,6 @@
 import { ChangeEvent, useRef, useState } from "react"
 import { firebaseUploadAdapter } from "../firebase/firebaseUploadAdapter"
-import PreviewImageComponant from "./ImageComponant"
+import ImageComponant from "./ImageComponant"
 import LinkComponant from "./LinkComponant"
 
 export default function FileUploadComponant() {
@@ -49,7 +49,7 @@ export default function FileUploadComponant() {
                   file && 
                   (<div>
                     <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-                      <PreviewImageComponant src={URL.createObjectURL(file)} alt={"preview image " + file.name}/>
+                      <ImageComponant src={URL.createObjectURL(file)} alt={"preview image " + file.name}/>
                     </div>
                     <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
                       <button type="submit">Upload</button>
