@@ -46,7 +46,7 @@ export default function MenuComponant() {
           useCase?.useCase === 'upload' && (<FileUploadComponant uploadGateway={di.uploadGateway}/>)
         }
         {
-          useCase?.useCase === 'download' && (<FilesDownloadComponant downloadGateway={di.downloadGateway}/>)
+          useCase?.useCase === 'download' && (<FilesDownloadComponant downloadGateway={di.downloadGateway} fileRefQueryGateway={di.fileRefQueryGateway}/>)
         }
       </div>
         </div>
