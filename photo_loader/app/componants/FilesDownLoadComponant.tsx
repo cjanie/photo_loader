@@ -9,21 +9,51 @@ interface FilesDownLoad {
     downloadGateway: DownloadGateway,
     fileRefQueryGateway: FileRefQueryGateway
 }
+interface PageToken {
+    firstPage: string[],
+    secondPage: string[],
 
+}
 export default function FilesDownloadComponant(props: FilesDownLoad) {
 
     
     const [fileNames, setFileNames] = useState<string[]>([])
-    const [listResult, setListResult] = useState<ListResult>()
+    const [nextFileNames, setNextFileNames] = useState<string[]>([])
+    const [isNext, setIsNext] = useState<boolean>()
 
   useEffect(()=> {
     //props.fileRefQueryGateway.getMaxFilesNamesPerPage(1).then(fileNames => setFileNames(fileNames))
-    pageTokenExample().then(fileNames => setFileNames(fileNames))
+    //pageTokenExample().then(fileNames => setFileNames(fileNames))
+    pageToken().then((pageToken) => {
+        setFileNames(pageToken.firstPage)
+        setNextFileNames(pageToken.secondPage)
+    })
+    
+
+
     
  }
-  , [fileNames])
+  , [fileNames, nextFileNames])
 
   const listRef = ref(storage, 'files');
+
+  async function pageToken(): Promise<PageToken> {
+    const firstPage = await list(listRef, { maxResults: 1 });
+    var secondPage = null
+    if (firstPage.nextPageToken) {
+        secondPage = await list(listRef, {
+            maxResults: 1,
+            pageToken: firstPage.nextPageToken,
+          });
+          // processItems(secondPage.items)
+          // processPrefixes(secondPage.prefixes)
+          
+    }
+    return {
+        firstPage: firstPage.items.map(item => item.name),
+        secondPage: (secondPage as ListResult).items.map(item => item.name)
+    }
+  } 
 
   async function pageTokenExample() : Promise<string[]>{
   
@@ -48,13 +78,20 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
           return secondPage.items.map(item => item.name)
     }
 
+    const onNext = () => {
+        setIsNext(true)
+    }
+
     return (
        <div>
         {
             fileNames.map(fileName => <FileDownloadComponant downloadGateway={props.downloadGateway} fileName={fileName}/>)
         }
         {
-            next && (<button >Next</button>)
+            nextFileNames && (<button onClick={onNext}>Next</button>)
+        }
+        {
+            isNext && nextFileNames.map(fileName => <FileDownloadComponant downloadGateway={props.downloadGateway} fileName={fileName}/>)
         }
        </div>
     )
