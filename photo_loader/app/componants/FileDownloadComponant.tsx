@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
-import "firebase/storage";
 import ImageComponant from "./ImageComponant";
 import { DownloadGateway } from "../gateways/DownloadGateway";
-import { fileNameQuery } from "../firebase/db/fileNameQuery";
 
 interface FileDownload {
     downloadGateway: DownloadGateway,

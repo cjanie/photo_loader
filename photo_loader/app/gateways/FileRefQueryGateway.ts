@@ -1,3 +1,4 @@
 interface FileRefQueryGateway {
-    getFilesNames: () => Promise<string[]>
+    getFilesNames: () => Promise<string[]>,
+    getMaxFilesNamesPerPage: (maxResultsPerPage: number) => Promise<string[]>
 }

@@ -1,14 +1,17 @@
 import { useState } from "react"
 import FileUploadComponant from "./FileUploadComponant"
-import { di } from "../di"
-import FileDownloadComponant from "./FileDownloadComponant"
+import { DI } from "../di"
 import FilesDownloadComponant from "./FilesDownLoadComponant"
+
+interface DependencyProvision {
+    di: DI
+}
 
 interface UseCase {
     useCase: 'upload' | 'download'
   } 
 
-export default function MenuComponant() {
+export default function MenuComponant(props: DependencyProvision) {
 
     const [useCase, setUseCase] = useState<UseCase | undefined>()
 
@@ -43,10 +46,10 @@ export default function MenuComponant() {
 
       <div>
         {
-          useCase?.useCase === 'upload' && (<FileUploadComponant uploadGateway={di.uploadGateway}/>)
+          useCase?.useCase === 'upload' && (<FileUploadComponant uploadGateway={props.di.uploadGateway}/>)
         }
         {
-          useCase?.useCase === 'download' && (<FilesDownloadComponant downloadGateway={di.downloadGateway} fileRefQueryGateway={di.fileRefQueryGateway}/>)
+          useCase?.useCase === 'download' && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway}/>)
         }
       </div>
         </div>
