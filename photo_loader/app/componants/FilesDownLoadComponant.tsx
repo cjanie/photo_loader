@@ -23,7 +23,6 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
 
   useEffect(()=> {
     //props.fileRefQueryGateway.getMaxFilesNamesPerPage(1).then(fileNames => setFileNames(fileNames))
-    //pageTokenExample().then(fileNames => setFileNames(fileNames))
     pageToken().then((pageToken) => {
         setFileNames(pageToken.firstPage)
         setNextFileNames(pageToken.secondPage)
@@ -38,6 +37,7 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
   const listRef = ref(storage, 'files');
 
   async function pageToken(): Promise<PageToken> {
+    // https://firebase.google.com/docs/storage/web/list-files?hl=fr
     const firstPage = await list(listRef, { maxResults: 1 });
     var secondPage = null
     if (firstPage.nextPageToken) {
@@ -45,39 +45,12 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
             maxResults: 1,
             pageToken: firstPage.nextPageToken,
           });
-          // processItems(secondPage.items)
-          // processPrefixes(secondPage.prefixes)
-          
     }
     return {
         firstPage: firstPage.items.map(item => item.name),
         secondPage: (secondPage as ListResult).items.map(item => item.name)
     }
-  } 
-
-  async function pageTokenExample() : Promise<string[]>{
-  
-    // Fetch the first page of 1
-    const firstPage = await list(listRef, { maxResults: 1 });
-    
-    // Fetch the second page if there are more elements.
-    if (firstPage.nextPageToken) {
-      return next(firstPage)
-    } else {
-        return firstPage.items.map(item => item.name)
-    }
-}
-
-    const next = async (firstPage: ListResult) => {
-        const secondPage = await list(listRef, {
-            maxResults: 1,
-            pageToken: firstPage.nextPageToken,
-          });
-          // processItems(secondPage.items)
-          // processPrefixes(secondPage.prefixes)
-          return secondPage.items.map(item => item.name)
-    }
-
+  }
     const onNext = () => {
         setIsNext(true)
     }
