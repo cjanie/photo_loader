@@ -13,7 +13,7 @@ export const firebaseFileRefQueryAdapter: FileRefQueryGateway = {
 const filesStorage = async () => {
 
     // Create a reference under which you want to list
-    const listRef = ref(storage, 'files');
+    const listRef = ref(storage, 'files/scandinavie');
     // Find all the prefixes and items.
     const listResult: ListResult = await listAll(listRef)
 
