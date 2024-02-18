@@ -13,7 +13,7 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
     const [fileNames, setFileNames] = useState<string[]>([])
 
   useEffect(()=> {
-    props.fileRefQueryGateway.getMaxFilesNamesPerPage(1).then(fileNames => setFileNames(fileNames)) }
+    props.fileRefQueryGateway.getMaxFilesNamesPerPage(2).then(fileNames => setFileNames(fileNames)) }
   , [fileNames])
 
   
