@@ -38,6 +38,7 @@ export default function FileUploadComponant(props: FileUpload) {
     
           <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
             <form onSubmit={onSubmit}>
+              <label>Select a file</label>
               <input 
                 accept="image/*"
                 type="file" 

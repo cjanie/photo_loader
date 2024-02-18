@@ -6,7 +6,13 @@ import { storage } from './firebase/firebase-config'
 import { ListResult, listAll, ref } from 'firebase/storage'
 import { useEffect, useState } from 'react'
 
+interface UseCase {
+  useCase: 'upload' | 'download'
+} 
+
 export default function Home() {
+
+  const [useCase, setUseCase] = useState<UseCase>()
 
   const [fileNames, setFileNames] = useState<string[]>([])
 
@@ -28,13 +34,27 @@ export default function Home() {
     })
     return storedFilesNames
   }
+
+  const upload = () => {
+    setUseCase({useCase: 'upload'})
+  }
+
+  const download = () => {
+    setUseCase({useCase: 'download'})
+  }
   
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
 
-        <FileUploadComponant uploadGateway={di.uploadGateway}/>
+        <button onClick={upload}>Upload</button>
+        <button onClick={download}>Download</button>
+        {
+          useCase?.useCase === 'upload' && (<FileUploadComponant uploadGateway={di.uploadGateway}/>)
+        }
+
+        
         {
           fileNames.map(fileName => <FileDownloadComponant downloadGateway={di.downloadGateway} fileName={fileName}/>)
         }
