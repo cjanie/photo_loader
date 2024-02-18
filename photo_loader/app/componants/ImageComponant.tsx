@@ -10,3 +10,9 @@ export default function ImageComponant(props: ImageProps) {
         <Image src={props.src} alt={props.alt} width={600} height={600}/>
     )
 }
+
+export function SmallImageComponant(props: ImageProps) {
+    return (
+        <Image src={props.src} alt={props.alt} width={200} height={200}/>
+    )
+}

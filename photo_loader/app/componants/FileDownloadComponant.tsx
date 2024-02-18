@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import ImageComponant from "./ImageComponant";
+import { SmallImageComponant } from "./ImageComponant";
 import { DownloadGateway } from "../gateways/DownloadGateway";
 
 interface FileDownload {
@@ -25,7 +25,7 @@ export default function FileDownloadComponant(props : FileDownload) {
                 {
                     downloadUrl && (
                         <div>
-                            <ImageComponant src={downloadUrl} alt="download"/>
+                            <SmallImageComponant src={downloadUrl} alt="download"/>
                             <p>{downloadUrl}</p>
                         </div> 
                     )
