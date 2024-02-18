@@ -5,13 +5,15 @@ export const firebaseFileRefQueryAdapter: FileRefQueryGateway = {
     getFilesNames: () => {
         return filesStorage()
     },
-    getMaxFilesNamesPerPage: (maxResultPerPage: number) => {
-        return pageToken(maxResultPerPage)
-    },
-    next: (maxResultsPerPage: number) => {
-        return pageToken(maxResultsPerPage)
+    getPageToken: () => {
+        return pageAndNext()
     }
+
 }
+
+
+
+  
 
 const filesStorage = async () => {
 
@@ -28,26 +30,24 @@ const filesStorage = async () => {
     return storedFilesNames
   }
 
-  const listRef = ref(storage, 'files');
+  
 
-  const pageToken = async (maxResultPerPage: number) => {
-    // Find all the prefixes and items.
-    const listResult = await list(listRef, {maxResults: maxResultPerPage})
-    //if(listResult.nextPageToken) return storedFilesNames(listResult.nextPageToken)
-
-    
-    return storedFilesNames(listResult)
-}
-
-
-const storedFilesNames = (listResult: ListResult) => {
-    var storedFilesNames: string[] = []
-    listResult.items.forEach(storageReference => {
-      console.log(storageReference.name + " full path = " + storageReference.fullPath)
-      storedFilesNames.push(storageReference.name)
-    })
-    return storedFilesNames
-}
+const pageAndNext = async(): Promise<PageToken> => {
+    // https://firebase.google.com/docs/storage/web/list-files?hl=fr
+    const listRef = ref(storage, 'files');
+    const firstPage = await list(listRef, { maxResults: 1 });
+    var secondPage = null
+    if (firstPage.nextPageToken) {
+        secondPage = await list(listRef, {
+            maxResults: 1,
+            pageToken: firstPage.nextPageToken,
+          });
+    }
+    return {
+        page: firstPage.items.map(item => item.name),
+        nextPage: (secondPage as ListResult).items.map(item => item.name)
+    }
+  }
 
 
 
