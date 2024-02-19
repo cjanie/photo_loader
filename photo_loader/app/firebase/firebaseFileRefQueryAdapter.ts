@@ -16,7 +16,7 @@ export const firebaseFileRefQueryAdapter: FileRefQueryGateway = {
     }
 }
 
-const listRef = ref(storage, STORAGE_DIRECTORY);
+const listRef = ref(storage, STORAGE_DIRECTORY + '/egypt');
 
 interface PageTokenQueryState {
   listResults: ListResult[]
