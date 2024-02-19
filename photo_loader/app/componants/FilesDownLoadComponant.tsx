@@ -31,7 +31,6 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
   
     const continueQuery = () => {
         props.fileRefQueryGateway.nextPageToken().then(((pageToken) => {
-            if(pageToken)
             setFileNames(pageToken.filesNames)
         }))
     }
