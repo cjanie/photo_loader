@@ -4,5 +4,5 @@ import { storage } from "./firebase-config";
 import { fileNameQuery } from "./db/fileNameQuery";
 
 export const firebaseDownloadAdapter: DownloadGateway = {
-    getUrl: async (fileName: string) => getDownloadURL(ref(storage, 'files/' + fileNameQuery.getFilesNames().find(name => fileName === name)))
+    getUrl: async (fileName: string) => getDownloadURL(ref(storage, 'files/' + fileName))
 } 

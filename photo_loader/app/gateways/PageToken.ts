@@ -1,4 +1,3 @@
 interface PageToken {
-    page: string[],
-    nextPage: string[]
+    filesNames: string[]
 }
