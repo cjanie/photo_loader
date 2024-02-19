@@ -3,6 +3,7 @@ import { SmallImageComponant } from "./ImageComponant";
 import { DownloadGateway } from "../gateways/DownloadGateway";
 
 interface FileDownload {
+    key: string | undefined,
     downloadGateway: DownloadGateway,
     fileName: string
 }
@@ -16,6 +17,7 @@ export default function FileDownloadComponant(props : FileDownload) {
     const getUrl = () => {        
         props.downloadGateway.getUrl(props.fileName).then((url) => {
             setDownLoadUrl(url)
+            console.log("download url = " + url)
         })
     }
 

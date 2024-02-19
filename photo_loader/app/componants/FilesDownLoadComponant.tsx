@@ -37,13 +37,13 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
     return (
        <div>
         {
-            fileNames.map(fileName => <FileDownloadComponant downloadGateway={props.downloadGateway} fileName={fileName}/>)
+            fileNames.map(fileName => <FileDownloadComponant key={fileName} downloadGateway={props.downloadGateway} fileName={fileName}/>)
         }
         {
             nextFileNames && (<button onClick={onNext}>Next</button>)
         }
         {
-            isNext && nextFileNames.map(fileName => <FileDownloadComponant downloadGateway={props.downloadGateway} fileName={fileName}/>)
+            isNext && nextFileNames.map(fileName => <FileDownloadComponant key={fileName} downloadGateway={props.downloadGateway} fileName={fileName}/>)
         }
        </div>
     )

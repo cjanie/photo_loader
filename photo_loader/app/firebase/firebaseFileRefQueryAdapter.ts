@@ -30,12 +30,34 @@ const filesStorage = async () => {
     return storedFilesNames
   }
 
-  
+const listRef = ref(storage, 'files');
+const listResultState = {
+  init: async () => {
+    
+    const firstPage = await list(listRef, { maxResults: 1 });
+    return firstPage
+  },
+  update: async() => {
+    const nextPage = list(listRef, {
+      maxResults: 1,
+      pageToken: (await state.listResult).nextPageToken,
+    })
+
+    state.listResult = nextPage
+  }
+
+}
+
+const state = {
+  listResult: listResultState.init()
+}
+
+
 
 const pageAndNext = async(): Promise<PageToken> => {
     // https://firebase.google.com/docs/storage/web/list-files?hl=fr
     const listRef = ref(storage, 'files');
-    const firstPage = await list(listRef, { maxResults: 1 });
+    const firstPage = await listResultState.init()
     var secondPage = null
     if (firstPage.nextPageToken) {
         secondPage = await list(listRef, {
