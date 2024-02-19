@@ -5,6 +5,7 @@ import { DownloadGateway } from "../gateways/DownloadGateway";
 interface FileDownload {
     key: string | undefined,
     downloadGateway: DownloadGateway,
+    subDirectoryName: string,
     fileName: string
 }
 
@@ -15,7 +16,7 @@ export default function FileDownloadComponant(props : FileDownload) {
     useEffect(() => getUrl(), [downloadUrl])
 
     const getUrl = () => {        
-        props.downloadGateway.getUrl('cairo', props.fileName).then((url) => {
+        props.downloadGateway.getUrl(props.subDirectoryName, props.fileName).then((url) => {
             setDownLoadUrl(url)
             console.log("download url = " + url)
         })

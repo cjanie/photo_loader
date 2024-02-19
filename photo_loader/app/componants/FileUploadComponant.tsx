@@ -4,7 +4,8 @@ import LinkComponant from "./LinkComponant"
 import { UploadGateway } from "../gateways/UploadGateway"
 
 interface FileUpload {
-  uploadGateway: UploadGateway
+  uploadGateway: UploadGateway,
+  subDirectoryName: string
 }
 
 export default function FileUploadComponant(props: FileUpload) {
@@ -29,7 +30,7 @@ export default function FileUploadComponant(props: FileUpload) {
 
         console.log(file)
 
-        const uploadResponse = await props.uploadGateway.upload('cairo', file)
+        const uploadResponse = await props.uploadGateway.upload(props.subDirectoryName, file)
         setUploadResultUrl(uploadResponse.downloadUrl)
     }
 

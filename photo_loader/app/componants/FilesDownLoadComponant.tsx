@@ -4,16 +4,14 @@ import { DownloadGateway } from "../gateways/DownloadGateway";
 
 interface FilesDownLoad {
     downloadGateway: DownloadGateway,
-    fileRefQueryGateway: FileRefQueryGateway
+    fileRefQueryGateway: FileRefQueryGateway,
+    subDirectoryName: string
 }
 
 export default function FilesDownloadComponant(props: FilesDownLoad) {
 
-    
     const [fileNames, setFileNames] = useState<string[]>([])
     const [nextPageIndex, setNextPageIndex] = useState<number>(0) 
-
-    
 
     useEffect(()=> {
         if(nextPageIndex == 0) {
@@ -24,7 +22,7 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
     }, [nextPageIndex])
 
     const initQuery = () => {
-        props.fileRefQueryGateway.initPageTokenQuery('cairo').then((pageToken => {
+        props.fileRefQueryGateway.initPageTokenQuery(props.subDirectoryName).then((pageToken => {
             setFileNames(pageToken.filesNames)
         }))
     }
@@ -42,7 +40,11 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
     return (
        <div>
         {
-            fileNames.map(fileName => fileName && <FileDownloadComponant key={fileName} downloadGateway={props.downloadGateway} fileName={fileName}/>)
+            fileNames.map(fileName => fileName && <FileDownloadComponant 
+                key={fileName} 
+                downloadGateway={props.downloadGateway} 
+                subDirectoryName={props.subDirectoryName}
+                fileName={fileName}/>)
         }
         <button onClick={onClickNext}>Next</button>
        </div>
