@@ -1,4 +1,4 @@
-import { ListResult, list, listAll, ref } from "firebase/storage";
+import { ListResult, StorageReference, list, listAll, ref } from "firebase/storage";
 import { STORAGE_DIRECTORY, storage } from "./firebase-config";
 
 
@@ -8,26 +8,29 @@ export const firebaseFileRefQueryAdapter: FileRefQueryGateway = {
     getFilesNames: () => {
         return listAllFilesNames()
     },
-    initPageTokenQuery: () => {
-      return initPageTokenQuery()
+    initPageTokenQuery: (subDirectoryName: string) => {
+      return initPageTokenQuery(subDirectoryName)
     },
     nextPageToken: () => {
       return nextPageToken()
     }
 }
 
-const listRef = ref(storage, STORAGE_DIRECTORY + '/egypt');
+const listRef = (subDirectoryName: string) => ref(storage, `${STORAGE_DIRECTORY}/${subDirectoryName}`);
 
 interface PageTokenQueryState {
-  listResults: ListResult[]
+  listResults: ListResult[],
+  subDirectoryName: string
 }
 const queryState: PageTokenQueryState = {
-  listResults: []
+  listResults: [],
+  subDirectoryName: ''
 }
 
-const initPageTokenQuery = async (): Promise<PageToken> =>  {
-  const firstPage = await list(listRef, { maxResults: 1 })
+const initPageTokenQuery = async (subDirectoryName: string): Promise<PageToken> =>  {
+  const firstPage = await list(listRef(subDirectoryName), { maxResults: 1 })
   queryState.listResults.push(firstPage)
+  queryState.subDirectoryName = subDirectoryName
   return {
     filesNames: firstPage.items.map(item => item.name),
   }
@@ -37,7 +40,7 @@ const nextPageToken = async (): Promise<PageToken> => {
   if(queryState.listResults.length > 0) {
     const currentPage = queryState.listResults[queryState.listResults.length - 1]
   if(currentPage.nextPageToken) {
-    const nextPage = await list(listRef, {
+    const nextPage = await list(listRef(queryState.subDirectoryName), {
       maxResults: 1,
       pageToken: currentPage.nextPageToken,
     });
@@ -54,7 +57,7 @@ const nextPageToken = async (): Promise<PageToken> => {
 }
 
 const listAllFilesNames = async () => {
-  const allFilesListResult: ListResult = await listAll(listRef)
+  const allFilesListResult: ListResult = await listAll(listRef(queryState.subDirectoryName))
   var allFilesNames: string[] = []
   allFilesListResult.items.forEach(storageReference => {
     allFilesNames.push(storageReference.name)

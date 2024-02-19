@@ -1,5 +1,5 @@
 interface FileRefQueryGateway {
     getFilesNames: () => Promise<string[]>,
-    initPageTokenQuery: () => Promise<PageToken>,
+    initPageTokenQuery: (subDirectoryName: string) => Promise<PageToken>,
     nextPageToken: () => Promise<PageToken>
 }

@@ -29,7 +29,7 @@ export default function FileUploadComponant(props: FileUpload) {
 
         console.log(file)
 
-        const uploadResponse = await props.uploadGateway.upload(file)
+        const uploadResponse = await props.uploadGateway.upload('cairo', file)
         setUploadResultUrl(uploadResponse.downloadUrl)
     }
 

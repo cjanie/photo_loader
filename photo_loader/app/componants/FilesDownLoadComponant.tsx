@@ -24,7 +24,7 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
     }, [nextPageIndex])
 
     const initQuery = () => {
-        props.fileRefQueryGateway.initPageTokenQuery().then((pageToken => {
+        props.fileRefQueryGateway.initPageTokenQuery('cairo').then((pageToken => {
             setFileNames(pageToken.filesNames)
         }))
     }

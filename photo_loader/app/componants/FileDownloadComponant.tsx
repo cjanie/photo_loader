@@ -15,7 +15,7 @@ export default function FileDownloadComponant(props : FileDownload) {
     useEffect(() => getUrl(), [downloadUrl])
 
     const getUrl = () => {        
-        props.downloadGateway.getUrl(props.fileName).then((url) => {
+        props.downloadGateway.getUrl('cairo', props.fileName).then((url) => {
             setDownLoadUrl(url)
             console.log("download url = " + url)
         })
