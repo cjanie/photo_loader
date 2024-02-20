@@ -30,31 +30,33 @@ export default function MenuComponant(props: DependencyProvision) {
         setDirectoryName(directory)
       }
 
-      const directoriesNames = () => firebaseSubdirectoryNameQueryAdapter.getDirectoriesNames() 
+      const directoriesNames = () => firebaseSubdirectoryNameQueryAdapter.getDirectoriesNames()
 
     return (
         <div>
-            <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>
-            
-            <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        {
           
-          !useCase && (<div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-            <button onClick={upload} className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
-                        >Upload</button>
-            <button onClick={download} className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
-                        >Download</button>
-          </div>)
-        }
-        {
-          useCase?.useCase === 'upload' && (<button onClick={download} className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
-          >Download</button>)
-        }
-        {
-          useCase?.useCase === 'download' && (<button onClick={upload} className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
-          >Upload</button>)
-        }
-      </div>
+          <nav data-active={true}>
+          <div>
+            
+              
+                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>
+                </div>
+              
+              
+             <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+              <button onClick={upload}>Upload</button>
+             </div>
+             <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                <button onClick={download}>Download</button>
+             </div>
+              
+              
+             
+              
+          </div>
+        </nav>
+
 
       <div>
         {

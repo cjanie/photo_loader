@@ -21,17 +21,17 @@ export function SelectComponant(props: Selection) {
     }, [value])
 
     return(
-        <div>
-            <label>Select</label>
+        
             <select onChange={(e) => {
                 props.setSelectedValue(e.target.value)
-                }}>
+                }}
+                >
                 {
                     options?.map(name => 
                     <option 
                     key={name} value={name}>{name}</option>)
                 }
             </select>
-        </div>
+        
     )
 }
