@@ -3,6 +3,7 @@ import FileUploadComponant from "./FileUploadComponant"
 import { DI } from "../di"
 import FilesDownloadComponant from "./FilesDownLoadComponant"
 import { SelectComponant } from "./SubDirectoriesComponant"
+import { firebaseSubdirectoryNameQueryAdapter } from "../firebase/firebaseSubdirectoryNameQueryAdapter"
 
 interface DependencyProvision {
     di: DI
@@ -16,7 +17,6 @@ export default function MenuComponant(props: DependencyProvision) {
 
     const [useCase, setUseCase] = useState<UseCase | undefined>()
     const [directoryName, setDirectoryName] = useState<string>()
-    const [options, setOptions] = useState<string[]>([])
 
     const upload = () => {
         setUseCase({useCase: 'upload'})
@@ -30,10 +30,22 @@ export default function MenuComponant(props: DependencyProvision) {
         setDirectoryName(directory)
       }
 
+      const directoriesNames = () => firebaseSubdirectoryNameQueryAdapter.getDirectoriesNames() 
+
     return (
         <div>
-            <SelectComponant setSelectedValue={setSelectedDirectory}/>
-            <p>{directoryName}</p>
+            <label>Select</label>
+            <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>
+            
+            {
+              directoryName && (
+                <div>
+                  <label>Selected</label>
+                  <p>{directoryName}</p>
+                </div>
+              )
+            }
+            
             <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         {
           

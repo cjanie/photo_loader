@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { firebaseSubdirectoryNameQueryAdapter } from "../firebase/firebaseSubdirectoryNameQueryAdapter"
 
 interface Selection {
-    setSelectedValue: (name:string) => void
+    setSelectedValue: (name:string) => void,
+    options: () => Promise<string[]>
 }
 
 export function SelectComponant(props: Selection) {
@@ -12,7 +13,7 @@ export function SelectComponant(props: Selection) {
     const [options, setOptions] = useState<string[]>([])
 
     useEffect(() => {
-        firebaseSubdirectoryNameQueryAdapter.getDirectoriesNames().then(names => {
+        props.options().then(names => {
             setOptions(names)
             setValue(names[0])
         })  
