@@ -22,6 +22,7 @@ export function SelectComponant(props: Selection) {
 
     return(
         <div>
+            <label>Select</label>
             <select onChange={(e) => {
                 props.setSelectedValue(e.target.value)
                 }}>

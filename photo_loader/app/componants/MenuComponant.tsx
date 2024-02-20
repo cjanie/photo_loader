@@ -34,17 +34,7 @@ export default function MenuComponant(props: DependencyProvision) {
 
     return (
         <div>
-            <label>Select</label>
             <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>
-            
-            {
-              directoryName && (
-                <div>
-                  <label>Selected</label>
-                  <p>{directoryName}</p>
-                </div>
-              )
-            }
             
             <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         {
@@ -68,10 +58,10 @@ export default function MenuComponant(props: DependencyProvision) {
 
       <div>
         {
-          useCase?.useCase === 'upload' && (<FileUploadComponant uploadGateway={props.di.uploadGateway} subDirectoryName="cairo"/>)
+          useCase?.useCase === 'upload' && directoryName && (<FileUploadComponant uploadGateway={props.di.uploadGateway} subDirectoryName={directoryName}/>)
         }
         {
-          useCase?.useCase === 'download' && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName="cairo"/>)
+          useCase?.useCase === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName}/>)
         }
       </div>
         </div>
