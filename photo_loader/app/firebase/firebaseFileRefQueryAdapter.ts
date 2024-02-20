@@ -1,4 +1,4 @@
-import { ListResult, StorageReference, list, listAll, ref } from "firebase/storage";
+import { ListResult, list, listAll, ref } from "firebase/storage";
 import { STORAGE_DIRECTORY, storage } from "./firebase-config";
 
 

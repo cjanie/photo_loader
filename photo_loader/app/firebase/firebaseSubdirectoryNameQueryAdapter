@@ -1,7 +1,0 @@
-import { ref } from "firebase/storage";
-import { STORAGE_DIRECTORY, storage } from "./firebase-config";
-
-export const firebaseSubdirectoryNameQueryAdapter = {
-
-}
-const listRef = () => ref(storage, `${STORAGE_DIRECTORY}`);

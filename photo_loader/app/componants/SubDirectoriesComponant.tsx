@@ -1,22 +1,35 @@
 import { useEffect, useState } from "react"
+import { firebaseSubdirectoryNameQueryAdapter } from "../firebase/firebaseSubdirectoryNameQueryAdapter"
 
-export function SubDirectoriesComponant() {
+interface Selection {
+    setSelectedValue: (name:string) => void
+}
 
-    const [subDirectoriesNames, setSubdirectoriesNames] = useState<string[]>()
+export function SelectComponant(props: Selection) {
+
+    const [value, setValue] = useState<string>()
+
+    const [options, setOptions] = useState<string[]>([])
 
     useEffect(() => {
-        const names = ['cairo', 'egypt']
-        setSubdirectoriesNames(names)
-    })
+        firebaseSubdirectoryNameQueryAdapter.getDirectoriesNames().then(names => {
+            setOptions(names)
+            setValue(names[0])
+        })  
+        if(value) props.setSelectedValue(value)
+    }, [value])
 
     return(
         <div>
-            <ul>
+            <select onChange={(e) => {
+                props.setSelectedValue(e.target.value)
+                }}>
                 {
-                    subDirectoriesNames?.map(name => <li key={name}>{name}</li>)
+                    options?.map(name => 
+                    <option 
+                    key={name} value={name}>{name}</option>)
                 }
-                
-            </ul>
+            </select>
         </div>
     )
 }
