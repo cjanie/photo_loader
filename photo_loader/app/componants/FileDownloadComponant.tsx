@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { SmallImageComponant } from "./ImageComponant";
+import ImageComponant from "./ImageComponant";
 import { DownloadGateway } from "../gateways/DownloadGateway";
 
 interface FileDownload {
@@ -7,6 +7,7 @@ interface FileDownload {
     downloadGateway: DownloadGateway,
     subDirectoryName: string,
     fileName: string
+    imageSize: number
 }
 
 export default function FileDownloadComponant(props : FileDownload) {
@@ -23,18 +24,12 @@ export default function FileDownloadComponant(props : FileDownload) {
     }
 
     return (
-        
             <div>
                 {
-                    downloadUrl && (
-                        <div>
-                            <SmallImageComponant src={downloadUrl} alt="download"/>
-                            <p>{downloadUrl}</p>
-                        </div> 
-                    )
+                    downloadUrl && 
+                    (<ImageComponant src={downloadUrl} alt={"download"} size={props.imageSize}/>)
                 }
             </div>
-        
         )
 }
 

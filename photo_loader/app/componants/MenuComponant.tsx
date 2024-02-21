@@ -4,26 +4,32 @@ import { DI } from "../di"
 import FilesDownloadComponant from "./FilesDownLoadComponant"
 import { SelectComponant } from "./SubDirectoriesComponant"
 import { firebaseSubdirectoryNameQueryAdapter } from "../firebase/firebaseSubdirectoryNameQueryAdapter"
+import WebSiteComponant from "./WebSiteComponant"
 
 interface DependencyProvision {
     di: DI
 }
 
-interface UseCase {
-    useCase: 'upload' | 'download'
-  } 
+interface UseCaseUser {
+    useCaseUser: 'upload' | 'download'
+  }
+
+interface UseCaseWebSite {
+  useCaseWebSite: 'website'
+}
 
 export default function MenuComponant(props: DependencyProvision) {
 
-    const [useCase, setUseCase] = useState<UseCase | undefined>()
+    const [useCaseUser, setUseCaseUser] = useState<UseCaseUser | undefined>()
+    const [useCaseVisitor, setUseCaseVisitor] = useState<UseCaseWebSite>()
     const [directoryName, setDirectoryName] = useState<string>()
 
     const upload = () => {
-        setUseCase({useCase: 'upload'})
+        setUseCaseUser({useCaseUser: 'upload'})
       }
     
       const download = () => {
-        setUseCase({useCase: 'download'})
+        setUseCaseUser({useCaseUser: 'download'})
       }
 
       const setSelectedDirectory = (directory: string) => {
@@ -32,40 +38,48 @@ export default function MenuComponant(props: DependencyProvision) {
 
       const directoriesNames = () => firebaseSubdirectoryNameQueryAdapter.getDirectoriesNames()
 
+      const webSite = () => {
+        setUseCaseVisitor({useCaseWebSite: 'website'})
+      }
+
     return (
         <div>
           
           <nav data-active={true}>
-          <div>
-            
-              
+
+            <div>
+            {
+              !useCaseVisitor && 
+              (<div>
                 <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>
+                  <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>
                 </div>
-              
-              
-             <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-              <button onClick={upload}>Upload</button>
-             </div>
-             <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                <button onClick={download}>Download</button>
-             </div>
-              
-              
-             
-              
-          </div>
+                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                  <button onClick={upload}>Upload</button>
+                </div>
+                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                    <button onClick={download}>Download</button>
+                </div>
+                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                  <button onClick={webSite}>Web site</button>
+                </div>
+              </div>)
+            }
+            </div>
         </nav>
-
-
       <div>
         {
-          useCase?.useCase === 'upload' && directoryName && (<FileUploadComponant uploadGateway={props.di.uploadGateway} subDirectoryName={directoryName}/>)
+          useCaseUser?.useCaseUser === 'upload' && directoryName && (<FileUploadComponant uploadGateway={props.di.uploadGateway} subDirectoryName={directoryName}/>)
         }
         {
-          useCase?.useCase === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName}/>)
+          useCaseUser?.useCaseUser === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={100}/>)
         }
       </div>
-        </div>
+      <div>
+        {
+          useCaseVisitor?.useCaseWebSite && directoryName && (<WebSiteComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName}/>)
+        }
+      </div>
+    </div>
     )
 }

@@ -5,7 +5,8 @@ import { DownloadGateway } from "../gateways/DownloadGateway";
 interface FilesDownLoad {
     downloadGateway: DownloadGateway,
     fileRefQueryGateway: FileRefQueryGateway,
-    subDirectoryName: string
+    subDirectoryName: string,
+    imageSize: number
 }
 
 export default function FilesDownloadComponant(props: FilesDownLoad) {
@@ -44,7 +45,8 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
                 key={fileName} 
                 downloadGateway={props.downloadGateway} 
                 subDirectoryName={props.subDirectoryName}
-                fileName={fileName}/>)
+                fileName={fileName}
+                imageSize={props.imageSize}/>)
         }
         <button onClick={onClickNext}>Next</button>
        </div>
