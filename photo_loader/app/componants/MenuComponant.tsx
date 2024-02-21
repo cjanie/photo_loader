@@ -5,9 +5,13 @@ import FilesDownloadComponant from "./FilesDownLoadComponant"
 import { SelectComponant } from "./SubDirectoriesComponant"
 import { firebaseSubdirectoryNameQueryAdapter } from "../firebase/firebaseSubdirectoryNameQueryAdapter"
 import WebSiteComponant from "./WebSiteComponant"
+import { DownloadGateway } from "../gateways/DownloadGateway"
+import { UploadGateway } from "../gateways/UploadGateway"
 
 interface DependencyProvision {
-    di: DI
+    uploadGateway: UploadGateway,
+    downloadGateway: DownloadGateway,
+    fileRefQueryGateway: FileRefQueryGateway
 }
 
 interface UseCaseUser {
@@ -69,15 +73,15 @@ export default function MenuComponant(props: DependencyProvision) {
         </nav>
       <div>
         {
-          useCaseUser?.useCaseUser === 'upload' && directoryName && (<FileUploadComponant uploadGateway={props.di.uploadGateway} subDirectoryName={directoryName}/>)
+          useCaseUser?.useCaseUser === 'upload' && directoryName && (<FileUploadComponant uploadGateway={props.uploadGateway} subDirectoryName={directoryName}/>)
         }
         {
-          useCaseUser?.useCaseUser === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={100}/>)
+          useCaseUser?.useCaseUser === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.downloadGateway} fileRefQueryGateway={props.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={100}/>)
         }
       </div>
       <div>
         {
-          useCaseVisitor?.useCaseWebSite && directoryName && (<WebSiteComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName}/>)
+          useCaseVisitor?.useCaseWebSite && directoryName && (<WebSiteComponant downloadGateway={props.downloadGateway} fileRefQueryGateway={props.fileRefQueryGateway} subDirectoryName={directoryName}/>)
         }
       </div>
     </div>
