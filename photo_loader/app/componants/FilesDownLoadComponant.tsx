@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import FileDownloadComponant from "./FileDownloadComponant";
 import { DownloadGateway } from "../gateways/DownloadGateway";
 import ImageComponant from "./ImageComponant";
@@ -66,9 +66,13 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
         setCurrentPageIndex(currentPageIndex - 1)
     }
 
+    const arrowIcon = (): ReactNode => {
+        return (<Image src="/icons/right-arrow-backup-2-svgrepo-com.svg" alt="arrow" height={50} width={50}/>)
+    } 
+
     return (
        <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-        <button onClick={onClickBack}>Back</button>
+        <BackButtonComponant onClick={onClickBack} icon={arrowIcon()}/>
         {
             fileNames.map(fileName => fileName && <FileDownloadComponant 
                 key={fileName} 
@@ -77,8 +81,23 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
                 fileName={fileName}
                 imageSize={props.imageSize}/>)
         }
-        <button onClick={onClickNext}><Image src="/icons/right-arrow-backup-2-svgrepo-com.svg" alt="arrow" height={50} width={50}/></button>
+        <button onClick={onClickNext}>{arrowIcon()}</button>
         
        </div>
     )
+}
+
+export interface IconButton {
+    onClick: () => void,
+    icon: ReactNode
+}
+
+export function BackButtonComponant(props: IconButton) {
+    return (
+        <button onClick={props.onClick} style={backIconStyle}>{props.icon}</button>
+    )
+}
+
+const backIconStyle = {
+    transform: 'rotate(180deg)' // https://p5js.org/reference/#/p5/rotate
 }

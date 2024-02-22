@@ -8,6 +8,6 @@ interface ImageProps {
 
 export default function ImageComponant(props: ImageProps) {
     return (
-        <Image src={props.src} alt={props.alt} width={props.size} height={props.size}/>
+        <Image src={props.src} alt={props.alt} width={props.size} height={props.size} objectFit="contain"/>
     )
 }
