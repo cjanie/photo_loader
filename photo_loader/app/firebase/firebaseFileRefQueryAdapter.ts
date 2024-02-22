@@ -27,8 +27,10 @@ const queryState: PageTokenQueryState = {
   subDirectoryName: ''
 }
 
+const MAX_RESULTS_PER_PAGE = 3
+
 const initPageTokenQuery = async (subDirectoryName: string): Promise<PageToken> =>  {
-  const firstPage = await list(listRef(subDirectoryName), { maxResults: 1 })
+  const firstPage = await list(listRef(subDirectoryName), { maxResults: MAX_RESULTS_PER_PAGE })
   queryState.listResults.push(firstPage)
   queryState.subDirectoryName = subDirectoryName
   return {
@@ -41,7 +43,7 @@ const nextPageToken = async (): Promise<PageToken> => {
     const currentPage = queryState.listResults[queryState.listResults.length - 1]
   if(currentPage.nextPageToken) {
     const nextPage = await list(listRef(queryState.subDirectoryName), {
-      maxResults: 1,
+      maxResults: MAX_RESULTS_PER_PAGE,
       pageToken: currentPage.nextPageToken,
     });
     queryState.listResults.push(nextPage)

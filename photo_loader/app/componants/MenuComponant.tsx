@@ -7,6 +7,7 @@ import { firebaseSubdirectoryNameQueryAdapter } from "../firebase/firebaseSubdir
 import WebSiteComponant from "./WebSiteComponant"
 import { DownloadGateway } from "../gateways/DownloadGateway"
 import { UploadGateway } from "../gateways/UploadGateway"
+import { classNames } from "./style/classNames"
 
 interface DependencyProvision {
     uploadGateway: UploadGateway,
@@ -55,16 +56,16 @@ export default function MenuComponant(props: DependencyProvision) {
             {
               !useCaseVisitor && 
               (<div>
-                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                <div className={classNames.fixedTop}>
                   <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>
                 </div>
-                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                <div className={classNames.fixedTop}>
                   <button onClick={upload}>Upload</button>
                 </div>
-                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                <div className={classNames.fixedTop}>
                     <button onClick={download}>Download</button>
                 </div>
-                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                <div className={classNames.fixedTop}>
                   <button onClick={webSite}>Web site</button>
                 </div>
               </div>)
