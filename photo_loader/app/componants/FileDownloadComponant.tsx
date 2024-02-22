@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import ImageComponant from "./ImageComponant";
+import ImageComponant from "./global/ImageComponant";
 import { DownloadGateway } from "../gateways/DownloadGateway";
 
 interface FileDownload {

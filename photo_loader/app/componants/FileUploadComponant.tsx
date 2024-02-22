@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react"
-import ImageComponant from "./ImageComponant"
-import LinkComponant from "./LinkComponant"
+import ImageComponant from "./global/ImageComponant"
+import LinkComponant from "./global/LinkComponant"
 import { UploadGateway } from "../gateways/UploadGateway"
 
 interface FileUpload {
