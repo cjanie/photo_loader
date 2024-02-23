@@ -71,8 +71,8 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
     
 
     return (    
-        <div className={classNames.main}>
-            <div className={classNames.fixedTop}>
+        <div className={classNames.mainNoPadding}>
+            <div className={classNames.fixedTopNoPadding}>
                 {
                     fileNames.map(fileName => fileName && <FileDownloadComponant 
                         key={fileName} 
