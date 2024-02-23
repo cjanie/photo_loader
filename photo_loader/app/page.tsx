@@ -6,7 +6,7 @@ import { di } from './di'
 export default function Home() {
   
   return (
-    <main className={classNames.main}>
+    <main className={classNames.mainNoPadding}>
       
       <MenuComponant uploadGateway={di.uploadGateway} downloadGateway={di.downloadGateway} fileRefQueryGateway={di.fileRefQueryGateway}/>
       

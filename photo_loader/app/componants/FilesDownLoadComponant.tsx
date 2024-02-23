@@ -83,7 +83,7 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
                         </div>
                         
             </div>
-            <div className={classNames.fixedBottomNotStatic}>
+            <div className={classNames.fixedBottomCenterNotStatic}>
                             {
                                 currentPageIndex > 0 && (<BackButtonComponant onClick={onClickBack}/>)
                             }
