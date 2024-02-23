@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import FileUploadComponant from "./FileUploadComponant"
 import { DI } from "../di"
 import FilesDownloadComponant from "./FilesDownLoadComponant"
@@ -8,19 +8,13 @@ import WebSiteComponant from "./WebSiteComponant"
 import { DownloadGateway } from "../gateways/DownloadGateway"
 import { UploadGateway } from "../gateways/UploadGateway"
 import { classNames } from "./style/classNames"
+import { UseCaseUser, UseCaseWebSite } from "./menu/UseCase"
+import NavbarComponant from "./NavbarComponant"
 
 interface DependencyProvision {
     uploadGateway: UploadGateway,
     downloadGateway: DownloadGateway,
     fileRefQueryGateway: FileRefQueryGateway
-}
-
-interface UseCaseUser {
-    useCaseUser: 'upload' | 'download'
-  }
-
-interface UseCaseWebSite {
-  useCaseWebSite: 'website'
 }
 
 export default function MenuComponant(props: DependencyProvision) {
@@ -47,44 +41,31 @@ export default function MenuComponant(props: DependencyProvision) {
         setUseCaseVisitor({useCaseWebSite: 'website'})
       }
 
-    return (
-        <div>
-          
-          <nav data-active={true}>
+      const navbarElements: ReactNode[] = [
+        <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>,
+        <button onClick={upload}>Upload</button>,
+        <button onClick={download}>Download</button>,
+        <button onClick={webSite}>Web site</button>
+    ] 
 
-            <div>
+    return (
+        <div className={classNames.widthFull}>
+          {
+            !useCaseVisitor && (<NavbarComponant options={navbarElements}/>)
+          }
+          <div>
             {
-              !useCaseVisitor && 
-              (<div>
-                <div className={classNames.fixedTop}>
-                  <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>
-                </div>
-                <div className={classNames.fixedTop}>
-                  <button onClick={upload}>Upload</button>
-                </div>
-                <div className={classNames.fixedTop}>
-                    <button onClick={download}>Download</button>
-                </div>
-                <div className={classNames.fixedTop}>
-                  <button onClick={webSite}>Web site</button>
-                </div>
-              </div>)
+              useCaseUser?.useCaseUser === 'upload' && directoryName && (<FileUploadComponant uploadGateway={props.uploadGateway} subDirectoryName={directoryName}/>)
             }
-            </div>
-        </nav>
-      <div>
-        {
-          useCaseUser?.useCaseUser === 'upload' && directoryName && (<FileUploadComponant uploadGateway={props.uploadGateway} subDirectoryName={directoryName}/>)
-        }
-        {
-          useCaseUser?.useCaseUser === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.downloadGateway} fileRefQueryGateway={props.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={100}/>)
-        }
-      </div>
-      <div>
-        {
-          useCaseVisitor?.useCaseWebSite && directoryName && (<WebSiteComponant downloadGateway={props.downloadGateway} fileRefQueryGateway={props.fileRefQueryGateway} subDirectoryName={directoryName}/>)
-        }
-      </div>
-    </div>
+            {
+              useCaseUser?.useCaseUser === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.downloadGateway} fileRefQueryGateway={props.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={100}/>)
+            }
+          </div>
+          <div>
+            {
+              useCaseVisitor?.useCaseWebSite && directoryName && (<WebSiteComponant downloadGateway={props.downloadGateway} fileRefQueryGateway={props.fileRefQueryGateway} subDirectoryName={directoryName}/>)
+            }
+          </div>
+        </div>
     )
 }

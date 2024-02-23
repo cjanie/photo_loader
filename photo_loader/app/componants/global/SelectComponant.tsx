@@ -23,6 +23,7 @@ export function SelectComponant(props: Selection) {
             <select onChange={(e) => {
                 props.setSelectedValue(e.target.value)
                 }}
+                className="text-black"
                 >
                 {
                     options?.map(option => 

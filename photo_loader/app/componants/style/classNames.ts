@@ -1,6 +1,12 @@
 export const classNames = {
     main: "flex min-h-screen flex-col items-center justify-between p-2",
     mainNoPadding: "flex min-h-screen max-h-screen flex-col items-center justify-between",
+    navbar: "flex w-full h-20 bg-emerald-800 sticky",
+    navbarElementsContainer: "flex gap-x-6 text-white",
+    heightFullContainer: "container mx-auto px-4 h-full",
+    widthFull: "w-full",
+    containerFlex: "flex items-center",
+    containerFlexHeightFull: "flex justify-between items-center h-full",
     containerFlexCenter:"flex min-h-screen items-center",
     content:"flex min-h-screen items-center justify-between",
     justifyBetween: "flex flex-col items-center justify-between",
