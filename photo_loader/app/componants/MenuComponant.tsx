@@ -49,17 +49,25 @@ export default function MenuComponant(props: DependencyProvision) {
     ] 
 
     return (
-        <div className={classNames.widthFull}>
+        <div className={classNames.fixedTopNoPadding}>
           {
             !useCaseVisitor && (
-              <div>
-                <NavbarComponant options={navbarElements}/>
+              <div className={classNames.widthFull}>
+                
+                <div className={classNames.fixedTopNoPadding}>
                   {
                     useCaseUser?.useCaseUser === 'upload' && directoryName && (<FileUploadComponant uploadGateway={props.uploadGateway} subDirectoryName={directoryName}/>)
                   }
                   {
                     useCaseUser?.useCaseUser === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.downloadGateway} fileRefQueryGateway={props.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={500}/>)
                   }
+
+                </div>
+
+                <div className="fixed left-0 top-0 w-full"><NavbarComponant options={navbarElements}/></div>
+                
+      
+                  
               </div>
             )
           }

@@ -4,6 +4,7 @@ export const classNames = {
     navbar: "flex w-full h-20 bg-emerald-800 sticky",
     navbarElementsContainer: "flex gap-x-6 text-white",
     heightFullContainer: "container mx-auto px-4 h-full",
+    widthHeightFull: "w-full h-full",
     widthFull: "w-full",
     containerFlex: "flex items-center",
     containerFlexHeightFull: "flex justify-between items-center h-full",
