@@ -21,7 +21,7 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
 
     const [pages, setPages] = useState<DownloadPage[]>([])
 
-    const [fileNames, setFileNames] = useState<string[]>([])
+    const [currentPageFilesNames, setCurrentPageFilesNames] = useState<string[]>([])
     
     const [currentPageIndex, setCurrentPageIndex] = useState<number>(-1)
 
@@ -31,28 +31,24 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
         } else {
             if(currentPageIndex > -1 && currentPageIndex < pages.length) {
                 const backPage: DownloadPage = pages[currentPageIndex]
-                setFileNames(backPage.fileNames)
+                setCurrentPageFilesNames(backPage.fileNames)
             } else {
                 continueQuery()
             }
-            
-            
-            
-            
         }
     }, [currentPageIndex])
 
     const initQuery = () => {
-        props.fileRefQueryGateway.initPageTokenQuery(props.subDirectoryName).then((pageToken => {
-            setFileNames(pageToken.filesNames)
+        props.fileRefQueryGateway.initPageTokenQuery(props.subDirectoryName).then((pageToken) => {
+            setCurrentPageFilesNames(pageToken.filesNames)
             const firstPage: DownloadPage = {fileNames: pageToken.filesNames}
             setPages([firstPage])
-        }))
+        })
     }
   
     const continueQuery = () => {
         props.fileRefQueryGateway.nextPageToken().then(((pageToken) => {
-            setFileNames(pageToken.filesNames)
+            setCurrentPageFilesNames(pageToken.filesNames)
             const nextPage: DownloadPage = {fileNames: pageToken.filesNames}
             const allPages = pages
             allPages.push(nextPage)
@@ -70,24 +66,32 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
 
     
 
-    return (    
-        <div className={classNames.mainNoPadding}>
-            <div className={classNames.fixedTopNoPadding}>
-                {
-                    fileNames.map(fileName => fileName && <FileDownloadComponant 
-                        key={fileName} 
-                        downloadGateway={props.downloadGateway} 
-                        subDirectoryName={props.subDirectoryName}
-                        fileName={fileName}
-                        imageSize={props.imageSize}/>)
-                }
+    return ( 
+        <main className={classNames.mainNoPadding}>
+
+            <div className={classNames.containerFlexCenter}>
+                        
+                        <div className={classNames.notFixed}>
+                            {
+                                currentPageFilesNames.map(fileName => fileName && <FileDownloadComponant 
+                                    key={fileName} 
+                                    downloadGateway={props.downloadGateway} 
+                                    subDirectoryName={props.subDirectoryName}
+                                    fileName={fileName}
+                                    imageSize={props.imageSize}/>)
+                            }
+                        </div>
+                        
             </div>
-            
-            <div className={classNames.fixedBottom}>
-                <BackButtonComponant onClick={onClickBack}/>
-                <NextButtonComponant onClick={onClickNext}/>
+            <div className={classNames.fixedBottomNotStatic}>
+                            {
+                                currentPageIndex > 0 && (<BackButtonComponant onClick={onClickBack}/>)
+                            }
+                            <NextButtonComponant onClick={onClickNext}/>     
             </div>
-        </div>
+
+        </main>   
+        
     )
 }
 
