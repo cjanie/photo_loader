@@ -13,7 +13,7 @@ export default function Home() {
   const [useCase, setUseCase] = useState<BoardUser | BoardVisitor>({visitWebSite: 'website'})
 
   useEffect(() => {
-    setUseCase({useCase: 'download'})
+    
   })
 
 
@@ -28,12 +28,17 @@ export default function Home() {
     fileRefQueryGateway: di.fileRefQueryGateway
   }
 
+  const setLoggedIn = (loggedIn: boolean) => {
+    if (loggedIn) {
+      setUseCase({useCase: 'website'} as BoardUser)
+    }
+  }
   
   return (
     <main className={classNames.mainNoPadding}>
       
       {
-        (useCase as BoardVisitor)?.visitWebSite ? <MenuVisitorComponant di={visitorDi} /> : <MenuUserComponant di={userDi} />
+        (useCase as BoardVisitor)?.visitWebSite ? <MenuVisitorComponant di={visitorDi} setLoggedIn={setLoggedIn}/> : <MenuUserComponant di={userDi} boardUser={useCase as BoardUser} />
       }
       
       

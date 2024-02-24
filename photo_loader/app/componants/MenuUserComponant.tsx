@@ -8,11 +8,11 @@ import FilesDownloadComponant from "./FilesDownLoadComponant"
 import NavbarComponant from "./NavbarComponant"
 
 interface UserDependencyProvision {
-    di: UserDi
+    di: UserDi,
 }
 
 export function MenuUserComponant(props: UserDependencyProvision) {
-  const [useCaseUser, setUseCaseUser] = useState<BoardUser | undefined>()
+  const [useCaseUser, setUseCaseUser] = useState<BoardUser>({useCase: 'upload'})
   const [directoryName, setDirectoryName] = useState<string>()
 
 

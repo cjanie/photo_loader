@@ -13,6 +13,7 @@ import NavbarComponant from "./NavbarComponant"
 
 interface VisitorDependencyProvision {
   di: VisitorDi
+  setLoggedIn: (loggedIn: boolean) => void
 }
 
 export default function MenuVisitorComponant(props: VisitorDependencyProvision) {
@@ -37,6 +38,7 @@ export default function MenuVisitorComponant(props: VisitorDependencyProvision) 
 
       const navbarElements: ReactNode[] = [
         <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>,
+        <button onClick={() => props.setLoggedIn(true)}>Login</button>
         ] 
 
     return (
