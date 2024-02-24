@@ -5,16 +5,22 @@ import { classNames } from './componants/style/classNames'
 import { di } from './di'
 import { BoardUser, BoardVisitor, UserDi, VisitorDi } from './componants/menu/UseCase'
 import { MenuUserComponant } from './componants/MenuUserComponant'
+import { firebaseLoginAdapter } from './firebase/auth/firebaseLoginAdapter'
+import { User } from './gateways/LoginGateway'
+import LoginComponant from './componants/auth/LoginComponant'
+
+
 
 export default function Home() {
 
+  const [isUserIn, setUserIn] = useState<User>()
 
-
-  const [useCase, setUseCase] = useState<BoardUser | BoardVisitor>({visitWebSite: 'website'})
+  const [loginRequest, setLoginRequest] = useState<boolean>()
 
   useEffect(() => {
-    
-  })
+    //const user = login('email', 'password')
+    //setUserIn(user)
+  }, [isUserIn])
 
 
   const userDi: UserDi = {
@@ -28,20 +34,25 @@ export default function Home() {
     fileRefQueryGateway: di.fileRefQueryGateway
   }
 
-  const setLoggedIn = (loggedIn: boolean) => {
-    if (loggedIn) {
-      setUseCase({useCase: 'website'} as BoardUser)
-    }
+
+
+  const login = (email: string, password: string) : User => {
+      return firebaseLoginAdapter.login(email, password)
+  }
+
+  const onLogin = () => {
+    setLoginRequest(true)
   }
   
   return (
     <main className={classNames.mainNoPadding}>
       
       {
-        (useCase as BoardVisitor)?.visitWebSite ? <MenuVisitorComponant di={visitorDi} setLoggedIn={setLoggedIn}/> : <MenuUserComponant di={userDi} boardUser={useCase as BoardUser} />
+        isUserIn ? <MenuUserComponant di={userDi} /> : <MenuVisitorComponant di={visitorDi} onLogin={onLogin}/>
       }
-      
-      
+      {
+        loginRequest && <LoginComponant/>
+      }
     </main>
   )
 }
