@@ -1,6 +1,13 @@
+import { firebaseLoginAdapter } from "@/app/firebase/auth/firebaseLoginAdapter"
+import { User } from "@/app/gateways/LoginGateway"
+import firebase from "firebase/compat/app"
 import { ChangeEvent, useState } from "react"
 
-export default function LoginComponant() {
+interface Login {
+    setUserIn : (user: User) => void
+}
+
+export default function LoginComponant(props: Login) {
 
     const [email, setEmail] = useState<string>()
     const [password, setPassword] = useState<string>()
@@ -10,11 +17,12 @@ export default function LoginComponant() {
     }
 
     const onPasswordFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-
+        setPassword(e.target.value)
     }
 
     const onSubmit = () => {
-
+        const user = firebaseLoginAdapter.login('email', 'string')
+        props.setUserIn(user)
     }
 
     return (

@@ -34,24 +34,26 @@ export default function Home() {
     fileRefQueryGateway: di.fileRefQueryGateway
   }
 
-
-
-  const login = (email: string, password: string) : User => {
-      return firebaseLoginAdapter.login(email, password)
+  const startLogin = () => {
+    setLoginRequest(true)
   }
 
-  const onLogin = () => {
-    setLoginRequest(true)
+  const setUserLoggedIn = (user: User) => {
+    setUserIn(user)
+    setLoginRequest(false)
   }
   
   return (
     <main className={classNames.mainNoPadding}>
       
-      {
-        isUserIn ? <MenuUserComponant di={userDi} /> : <MenuVisitorComponant di={visitorDi} onLogin={onLogin}/>
+      { !loginRequest && isUserIn && (<MenuUserComponant di={userDi} />)
+        
       }
       {
-        loginRequest && <LoginComponant/>
+        !loginRequest && !isUserIn && (<MenuVisitorComponant di={visitorDi} onLogin={startLogin}/>)
+      }
+      {
+        loginRequest && <LoginComponant setUserIn={setUserLoggedIn}/>
       }
     </main>
   )
