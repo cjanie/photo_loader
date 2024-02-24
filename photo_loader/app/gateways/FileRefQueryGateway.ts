@@ -1,4 +1,6 @@
 interface FileRefQueryGateway {
     getFilesNames: () => Promise<string[]>,
-    getMaxFilesNamesPerPage: (maxResultsPerPage: number) => Promise<string[]>
+    initPageTokenQuery: (subDirectoryName: string) => Promise<PageToken>,
+    nextPageToken: () => Promise<PageToken>,
+    resetPageTokenQuery: () => void
 }

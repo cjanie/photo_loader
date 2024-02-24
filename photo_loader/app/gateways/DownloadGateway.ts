@@ -1,3 +1,3 @@
 export interface DownloadGateway {
-    getUrl: (fileName: string) => Promise<string> 
+    getUrl: (subDirectoryName: string,fileName: string) => Promise<string> 
 }

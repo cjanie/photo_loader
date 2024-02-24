@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from "react"
-import ImageComponant from "./ImageComponant"
-import LinkComponant from "./LinkComponant"
+import ImageComponant from "./global/ImageComponant"
+import LinkComponant from "./global/LinkComponant"
 import { UploadGateway } from "../gateways/UploadGateway"
 
 interface FileUpload {
-  uploadGateway: UploadGateway
+  uploadGateway: UploadGateway,
+  subDirectoryName: string
 }
 
 export default function FileUploadComponant(props: FileUpload) {
@@ -29,7 +30,7 @@ export default function FileUploadComponant(props: FileUpload) {
 
         console.log(file)
 
-        const uploadResponse = await props.uploadGateway.upload(file)
+        const uploadResponse = await props.uploadGateway.upload(props.subDirectoryName, file)
         setUploadResultUrl(uploadResponse.downloadUrl)
     }
 
@@ -49,7 +50,7 @@ export default function FileUploadComponant(props: FileUpload) {
                   file && 
                   (<div>
                     <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-                      <ImageComponant src={URL.createObjectURL(file)} alt={"preview image " + file.name}/>
+                      <ImageComponant src={URL.createObjectURL(file)} alt={"preview image " + file.name} size={700}/>
                     </div>
                     <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
                       <button className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"

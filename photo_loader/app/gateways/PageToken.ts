@@ -1,0 +1,3 @@
+interface PageToken {
+    filesNames: string[]
+}

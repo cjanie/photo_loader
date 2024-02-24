@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react"
-import { SmallImageComponant } from "./ImageComponant";
+import ImageComponant from "./global/ImageComponant";
 import { DownloadGateway } from "../gateways/DownloadGateway";
 
 interface FileDownload {
+    key: string | undefined,
     downloadGateway: DownloadGateway,
+    subDirectoryName: string,
     fileName: string
+    imageSize: number
 }
 
 export default function FileDownloadComponant(props : FileDownload) {
@@ -14,24 +17,19 @@ export default function FileDownloadComponant(props : FileDownload) {
     useEffect(() => getUrl(), [downloadUrl])
 
     const getUrl = () => {        
-        props.downloadGateway.getUrl(props.fileName).then((url) => {
+        props.downloadGateway.getUrl(props.subDirectoryName, props.fileName).then((url) => {
             setDownLoadUrl(url)
+            console.log("download url = " + url)
         })
     }
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <div>
                 {
-                    downloadUrl && (
-                        <div>
-                            <SmallImageComponant src={downloadUrl} alt="download"/>
-                            <p>{downloadUrl}</p>
-                        </div> 
-                    )
+                    downloadUrl && 
+                    (<ImageComponant src={downloadUrl} alt={"download"} size={props.imageSize}/>)
                 }
             </div>
-        </main>
         )
 }
 
