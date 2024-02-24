@@ -16,7 +16,7 @@ export default function Home() {
   const [useCase, setUseCase] = useState<UseCaseUser | UseCaseVisitor>({visitWebSite: 'website'})
 
   useEffect(() => {
-    setUseCase({visitWebSite: 'website'})
+    setUseCase({useCaseUser: 'download'})
   })
 
 

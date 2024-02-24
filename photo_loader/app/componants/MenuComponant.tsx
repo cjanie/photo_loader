@@ -28,6 +28,10 @@ export function MenuUserComponant(props: DependencyProvision) {
     setUseCaseUser({useCaseUser: 'download'})
   }
 
+  const webSite = () => {
+    setUseCaseUser({useCaseUser: 'website'})
+  }
+
   const setSelectedDirectory = (directory: string) => {
     setDirectoryName(directory)
   }
@@ -37,7 +41,8 @@ export function MenuUserComponant(props: DependencyProvision) {
   const navbarElements: ReactNode[] = [
     <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>,
     <button onClick={upload} disabled={useCaseUser?.useCaseUser === 'upload'} hidden={useCaseUser?.useCaseUser === 'upload'}>Upload</button>,
-    <button onClick={download} disabled={useCaseUser?.useCaseUser === 'download'} hidden={useCaseUser?.useCaseUser === 'download'}>Download</button>
+    <button onClick={download} disabled={useCaseUser?.useCaseUser === 'download'} hidden={useCaseUser?.useCaseUser === 'download'}>Download</button>,
+    <button onClick={webSite} disabled={useCaseUser?.useCaseUser === 'website'} hidden={useCaseUser?.useCaseUser === 'website'}>Web site</button>
 ] 
 
   return (
@@ -50,7 +55,10 @@ export function MenuUserComponant(props: DependencyProvision) {
                 useCaseUser?.useCaseUser === 'upload' && directoryName && (<FileUploadComponant uploadGateway={(props.di as UserDi).uploadGateway} subDirectoryName={directoryName}/>)
               }
               {
-                useCaseUser?.useCaseUser === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={(props.di as UserDi).downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={500}/>)
+                useCaseUser?.useCaseUser === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={500}/>)
+              }
+              {
+                useCaseUser?.useCaseUser === 'website' && directoryName && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={500}/>)
               }
 
             </div>
