@@ -6,6 +6,7 @@ import { classNames } from "./style/classNames"
 import FileUploadComponant from "./FileUploadComponant"
 import FilesDownloadComponant from "./FilesDownLoadComponant"
 import NavbarComponant from "./NavbarComponant"
+import WebSiteComponant from "./WebSiteComponant"
 
 interface UserDependencyProvision {
     di: UserDi,
@@ -53,7 +54,7 @@ export function MenuUserComponant(props: UserDependencyProvision) {
                 useCaseUser?.useCase === 'download' && directoryName && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={500}/>)
               }
               {
-                useCaseUser?.useCase === 'website' && directoryName && (<FilesDownloadComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={500}/>)
+                useCaseUser?.useCase === 'website' && directoryName && (<WebSiteComponant downloadGateway={props.di.downloadGateway} fileRefQueryGateway={props.di.fileRefQueryGateway} subDirectoryName={directoryName} imageSize={500}/>)
               }
 
             </div>

@@ -10,7 +10,6 @@ import { User } from './gateways/LoginGateway'
 import LoginComponant from './componants/auth/LoginComponant'
 
 
-
 export default function Home() {
 
   const [isUserIn, setUserIn] = useState<User>()
@@ -45,11 +44,14 @@ export default function Home() {
   return (
     <main className={classNames.mainNoPadding}>
       
-      { !loginRequest && isUserIn && (<MenuUserComponant di={userDi} />)
-        
+      { 
+        isUserIn && <MenuUserComponant di={userDi} />   
       }
       {
-        loginRequest ? <LoginComponant setUserIn={setUserLoggedIn} onCancel={cancelLogin}/> : <MenuVisitorComponant di={visitorDi} onLogin={startLogin}/> 
+        loginRequest && <LoginComponant setUserIn={setUserLoggedIn} onCancel={cancelLogin}/> 
+      }
+      {
+        !isUserIn && !loginRequest && <MenuVisitorComponant di={visitorDi} onLogin={startLogin}/>
       }
       
     </main>
