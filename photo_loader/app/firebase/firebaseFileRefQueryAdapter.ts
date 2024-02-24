@@ -13,7 +13,8 @@ export const firebaseFileRefQueryAdapter: FileRefQueryGateway = {
     },
     nextPageToken: () => {
       return nextPageToken()
-    }
+    },
+    resetPageTokenQuery: () => resetPageTokenQuery()
 }
 
 const listRef = (subDirectoryName: string) => ref(storage, `${STORAGE_DIRECTORY}/${subDirectoryName}`);
@@ -54,8 +55,12 @@ const nextPageToken = async (): Promise<PageToken> => {
   }
   return {
     filesNames: []
-  }
-  
+  }  
+}
+
+const resetPageTokenQuery = () => {
+  queryState.listResults = [],
+  queryState.subDirectoryName = ''
 }
 
 const listAllFilesNames = async () => {

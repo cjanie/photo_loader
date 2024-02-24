@@ -25,7 +25,15 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
     
     const [currentPageIndex, setCurrentPageIndex] = useState<number>(-1)
 
+    const [changedDirectoryName, setChangedDirectoryName] = useState<string>()
+
     useEffect(()=> {
+        if(changedDirectoryName !== props.subDirectoryName) {
+            props.fileRefQueryGateway.resetPageTokenQuery()
+            setChangedDirectoryName(props.subDirectoryName)
+            initQuery()
+        }
+        
         if(pages.length == 0) {
             initQuery()
         } else {
@@ -36,7 +44,8 @@ export default function FilesDownloadComponant(props: FilesDownLoad) {
                 continueQuery()
             }
         }
-    }, [currentPageIndex])
+    }, [currentPageIndex, props.subDirectoryName])
+
 
     const initQuery = () => {
         props.fileRefQueryGateway.initPageTokenQuery(props.subDirectoryName).then((pageToken) => {
