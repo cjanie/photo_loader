@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { SelectComponant } from "./global/SelectComponant";
-import { UseCaseWebSite } from "./menu/UseCase";
+import { BoardVisitor } from "./menu/UseCase";
 import { classNames } from "./style/classNames";
 
 interface Navbar {

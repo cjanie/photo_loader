@@ -1,11 +1,11 @@
 import { DownloadGateway } from "@/app/gateways/DownloadGateway"
 import { UploadGateway } from "@/app/gateways/UploadGateway"
 
-export interface UseCaseUser {
-    useCaseUser: 'upload' | 'download' | 'website'
+export interface BoardUser {
+    useCase: 'upload' | 'download' | 'website'
   }
 
-export interface UseCaseWebSite {
+export interface BoardVisitor {
   visitWebSite: 'website'
 }
 

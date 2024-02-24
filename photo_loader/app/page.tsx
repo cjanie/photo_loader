@@ -1,22 +1,19 @@
 'use client'
 import { useEffect, useState } from 'react'
-import MenuVisitorComponant, { MenuUserComponant } from './componants/MenuComponant'
+import MenuVisitorComponant from './componants/MenuVisitorComponant'
 import { classNames } from './componants/style/classNames'
 import { di } from './di'
-import { UseCaseUser, UseCaseWebSite as UseCaseVisitor, UserDi, VisitorDi } from './componants/menu/UseCase'
-import { UploadGateway } from './gateways/UploadGateway'
-import { DownloadGateway } from './gateways/DownloadGateway'
-
-
+import { BoardUser, BoardVisitor, UserDi, VisitorDi } from './componants/menu/UseCase'
+import { MenuUserComponant } from './componants/MenuUserComponant'
 
 export default function Home() {
 
 
 
-  const [useCase, setUseCase] = useState<UseCaseUser | UseCaseVisitor>({visitWebSite: 'website'})
+  const [useCase, setUseCase] = useState<BoardUser | BoardVisitor>({visitWebSite: 'website'})
 
   useEffect(() => {
-    setUseCase({useCaseUser: 'download'})
+    setUseCase({useCase: 'download'})
   })
 
 
@@ -36,8 +33,7 @@ export default function Home() {
     <main className={classNames.mainNoPadding}>
       
       {
-        (useCase as UseCaseVisitor)?.visitWebSite ? <MenuVisitorComponant di={visitorDi} /> : <MenuUserComponant di={userDi} />
-      
+        (useCase as BoardVisitor)?.visitWebSite ? <MenuVisitorComponant di={visitorDi} /> : <MenuUserComponant di={userDi} />
       }
       
       
