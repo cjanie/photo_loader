@@ -2,9 +2,12 @@ import { firebaseLoginAdapter } from "@/app/firebase/auth/firebaseLoginAdapter"
 import { User } from "@/app/gateways/LoginGateway"
 import firebase from "firebase/compat/app"
 import { ChangeEvent, useState } from "react"
+import InputComponant from "../global/InputComponant"
+import { classNames } from "../style/classNames"
 
 interface Login {
-    setUserIn : (user: User) => void
+    setUserIn : (user: User) => void,
+    onCancel: () => void
 }
 
 export default function LoginComponant(props: Login) {
@@ -21,31 +24,37 @@ export default function LoginComponant(props: Login) {
     }
 
     const onSubmit = () => {
-        const user = firebaseLoginAdapter.login('email', 'string')
+        if(email && password) {
+            const user = firebaseLoginAdapter.login(email, password)
         props.setUserIn(user)
+        }
+        
     }
 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <label>Email</label>
-                <input 
-                type="text"
-                name="email"
-                onChange={(e) => onEmailFileInputChange(e)}/>
+        
+            <div className={classNames.containerFlexCenter}>
+            <form onSubmit={onSubmit} className="flex flex-col">
+                <div className="p-2">
+                    <InputComponant label="email" onchange={(e) => onEmailFileInputChange(e)}/>
+                </div>
+                <div className="p-2">
+                    <InputComponant label="password" onchange={(e) => onPasswordFileInputChange(e)}/>
+                </div>
 
-                <label>Password</label>
-                <input 
-                type="text"
-                name="password"
-                onChange={(e) => onPasswordFileInputChange(e)}/>
-
-                <button type="submit"
-                className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                <div className="p-2">
+                    <button type="submit" className="p-2 bg-emerald-800 text-white h-full w-full lg:rounded-xl " >
                     Login
-                </button>
-
+                    </button>
+                </div>
+                <div className="p-2">
+                    <button onClick={() => props.onCancel} className="p-2 bg-red-800 text-white h-full w-full lg:rounded-xl " >
+                    Cancel
+                    </button>
+                </div>
             </form>
-        </div>
+            
+
+            </div>
     )
 }

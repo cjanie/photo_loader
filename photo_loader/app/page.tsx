@@ -17,11 +17,6 @@ export default function Home() {
 
   const [loginRequest, setLoginRequest] = useState<boolean>()
 
-  useEffect(() => {
-    //const user = login('email', 'password')
-    //setUserIn(user)
-  }, [isUserIn])
-
 
   const userDi: UserDi = {
     uploadGateway: di.uploadGateway,
@@ -42,6 +37,10 @@ export default function Home() {
     setUserIn(user)
     setLoginRequest(false)
   }
+
+  const cancelLogin = () => {
+    setLoginRequest(false)
+  } 
   
   return (
     <main className={classNames.mainNoPadding}>
@@ -50,11 +49,9 @@ export default function Home() {
         
       }
       {
-        !loginRequest && !isUserIn && (<MenuVisitorComponant di={visitorDi} onLogin={startLogin}/>)
+        loginRequest ? <LoginComponant setUserIn={setUserLoggedIn} onCancel={cancelLogin}/> : <MenuVisitorComponant di={visitorDi} onLogin={startLogin}/> 
       }
-      {
-        loginRequest && <LoginComponant setUserIn={setUserLoggedIn}/>
-      }
+      
     </main>
   )
 }
