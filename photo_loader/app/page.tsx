@@ -30,17 +30,16 @@ export default function Home() {
           // User is signed out
           setUserIn(undefined)
         }
-      });
+      })
 }, [])
 
 
 const handleLogout = () => {               
   signOut(auth).then(() => {
-  // Sign-out successful.
       setUserIn(undefined)
   }).catch((error) => {
   // An error happened.
-  });
+  })
 }
 
 
@@ -55,16 +54,16 @@ const handleLogout = () => {
     fileRefQueryGateway: di.fileRefQueryGateway
   }
 
-  const startLogin = () => {
+  const startAuth = () => {
     setauthRequest(true)
   }
 
-  const setUserLoggedIn = (user: User) => {
+  const setAuth = (user: User) => {
     setUserIn(user)
     setauthRequest(false)
   }
 
-  const cancelLogin = () => {
+  const cancelAuth = () => {
     setauthRequest(false)
   } 
 
@@ -81,13 +80,13 @@ const handleLogout = () => {
       {
         authRequest && (
           
-            <AuthComponant setUserIn={setUserLoggedIn} onCancel={cancelLogin}/>
+            <AuthComponant setUserIn={setAuth} onCancel={cancelAuth}/>
           
           )
         
       }
       {
-        !authRequest && !isUserIn && <MenuVisitorComponant di={visitorDi} onLogin={startLogin}/>
+        !authRequest && !isUserIn && <MenuVisitorComponant di={visitorDi} onLogin={startAuth}/>
       }
       
     </main>
