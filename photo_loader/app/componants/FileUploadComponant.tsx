@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react"
 import ImageComponant from "./global/ImageComponant"
 import LinkComponant from "./global/LinkComponant"
 import { UploadGateway } from "../gateways/UploadGateway"
+import InputComponant from "./global/InputComponant"
 
 interface FileUpload {
   uploadGateway: UploadGateway,
@@ -10,6 +11,7 @@ interface FileUpload {
 
 export default function FileUploadComponant(props: FileUpload) {
 
+    const [newDirectory, setNewDirectory] = useState<string>()
     const [file, setFile] = useState<File | undefined>()
     const [uploadResultUrl, setUploadResultUrl] = useState<string>()
 
@@ -30,15 +32,23 @@ export default function FileUploadComponant(props: FileUpload) {
 
         console.log(file)
 
-        const uploadResponse = await props.uploadGateway.upload(props.subDirectoryName, file)
+        const uploadResponse = await props.uploadGateway.upload(newDirectory ? newDirectory : props.subDirectoryName, file)
         setUploadResultUrl(uploadResponse.downloadUrl)
     }
+
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
     
           <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
             <form onSubmit={onSubmit}>
+              <label>
+                New directory
+              </label>
+              <input 
+                type="text"
+                name="directoryName"
+                onChange={(e) => setNewDirectory(e.target.value)}/>
               <label>Select a file</label>
               <input 
                 accept="image/*"
