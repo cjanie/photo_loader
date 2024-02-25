@@ -72,7 +72,7 @@ const handleLogout = () => {
     <main className={classNames.mainNoPadding}>
       
       { 
-        isUserIn && <MenuUserComponant di={userDi} />   
+        isUserIn && <MenuUserComponant di={userDi} onLogout={handleLogout}/>   
       }
       { 
         isUserIn && <p>{isUserIn.email}</p>   

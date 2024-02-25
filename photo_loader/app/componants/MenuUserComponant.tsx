@@ -10,6 +10,7 @@ import WebSiteComponant from "./WebSiteComponant"
 
 interface UserDependencyProvision {
     di: UserDi,
+    onLogout: () => void
 }
 
 export function MenuUserComponant(props: UserDependencyProvision) {
@@ -39,7 +40,8 @@ export function MenuUserComponant(props: UserDependencyProvision) {
     <SelectComponant setSelectedValue={setSelectedDirectory} options={directoriesNames}/>,
     <button onClick={upload} disabled={useCaseUser?.useCase === 'upload'} hidden={useCaseUser?.useCase === 'upload'}>Upload</button>,
     <button onClick={download} disabled={useCaseUser?.useCase === 'download'} hidden={useCaseUser?.useCase === 'download'}>Download</button>,
-    <button onClick={webSite} disabled={useCaseUser?.useCase === 'website'} hidden={useCaseUser?.useCase === 'website'}>Web site</button>
+    <button onClick={webSite} disabled={useCaseUser?.useCase === 'website'} hidden={useCaseUser?.useCase === 'website'}>Web site</button>,
+    <button onClick={props.onLogout}>Log out</button>
 ] 
 
   return (
