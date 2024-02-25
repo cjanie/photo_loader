@@ -4,5 +4,5 @@ export interface User {
 }
 
 export interface LoginGateway {
-    login: (email: string, password: string) => User
+    login: (email: string, password: string) => Promise<User>
 }

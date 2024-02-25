@@ -8,7 +8,6 @@ import { MenuUserComponant } from './componants/MenuUserComponant'
 import { firebaseLoginAdapter } from './firebase/auth/firebaseLoginAdapter'
 import { User } from './gateways/LoginGateway'
 import AuthComponant from './componants/auth/AuthComponant'
-import SignUpComponant from './componants/auth/SignUpComponant'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from './firebase/firebase-config'
 
@@ -19,6 +18,7 @@ export default function Home() {
 
   const [authRequest, setauthRequest] = useState<boolean>()
 
+  // Observe user auth
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -32,6 +32,7 @@ export default function Home() {
         }
       });
 }, [])
+
 
 const handleLogout = () => {               
   signOut(auth).then(() => {

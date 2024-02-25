@@ -1,30 +1,22 @@
-import { LoginGateway } from "@/app/gateways/LoginGateway";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { LoginGateway, User } from "@/app/gateways/LoginGateway";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
+import { use } from "react";
 
 
 export const firebaseLoginAdapter: LoginGateway = {
-    login: (email: string, password: string) => {
-        return {
-            email: email
-        }
+    login: (email: string, password: string): Promise<User> => {
+        return login(email, password)
     }
 }
 
-// https://medium.com/@chrissgodden/firebase-authentication-with-nextjs-ad7cafa095d
-const login = () => {
-    const userCredentials = onAuthStateChanged(auth, (user) => user)
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          const uid = user.uid;
-          // ...
-          console.log("uid", uid)
-        } else {
-          // User is signed out
-          // ...
-          console.log("user is logged out")
-        }
-      });
+const login = async (email: string, password: string): Promise<User> => {
+
+    const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+    if(userCredentials.user.email === null) {
+        throw new Error('email null')
+    } else {
+        const user = {email: userCredentials.user.email}
+        return user
+    }
 }

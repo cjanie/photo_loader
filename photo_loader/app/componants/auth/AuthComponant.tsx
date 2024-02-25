@@ -27,14 +27,18 @@ export default function AuthComponant(props: AuthProcess) {
 
     const login = () => {
         if(email && password) {
-            const user = firebaseLoginAdapter.login(email, password)
-        props.setUserIn(user)
+            firebaseLoginAdapter
+            .login(email, password)
+            .then(user => props.setUserIn(user))
+            .catch(error => setError(error.message))
+        
         }
     }
 
     const signUp = () => {
         if(email && password) {
-            firebaseSignUpAdapter.signUp(email, password)
+            firebaseSignUpAdapter
+            .signUp(email, password)
                 .then(user => {
                     props.setUserIn(user);
                 })
