@@ -13,6 +13,7 @@ export const firebaseLoginAdapter: LoginGateway = {
 
 // https://medium.com/@chrissgodden/firebase-authentication-with-nextjs-ad7cafa095d
 const login = () => {
+    const userCredentials = onAuthStateChanged(auth, (user) => user)
     onAuthStateChanged(auth, (user) => {
         if (user) {
           // User is signed in, see docs for a list of available properties

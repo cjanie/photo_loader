@@ -7,15 +7,40 @@ import { BoardUser, BoardVisitor, UserDi, VisitorDi } from './componants/menu/Us
 import { MenuUserComponant } from './componants/MenuUserComponant'
 import { firebaseLoginAdapter } from './firebase/auth/firebaseLoginAdapter'
 import { User } from './gateways/LoginGateway'
-import LoginComponant from './componants/auth/LoginComponant'
+import AuthComponant from './componants/auth/AuthComponant'
 import SignUpComponant from './componants/auth/SignUpComponant'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { auth } from './firebase/firebase-config'
 
 
 export default function Home() {
 
-  const [isUserIn, setUserIn] = useState<User>()
+  const [isUserIn, setUserIn] = useState<User | undefined>()
 
-  const [loginRequest, setLoginRequest] = useState<boolean>()
+  const [authRequest, setauthRequest] = useState<boolean>()
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in
+          if(user.email) {
+            setUserIn({email: user.email})
+          }
+        } else {
+          // User is signed out
+          setUserIn(undefined)
+        }
+      });
+}, [])
+
+const handleLogout = () => {               
+  signOut(auth).then(() => {
+  // Sign-out successful.
+      setUserIn(undefined)
+  }).catch((error) => {
+  // An error happened.
+  });
+}
 
 
   const userDi: UserDi = {
@@ -30,17 +55,18 @@ export default function Home() {
   }
 
   const startLogin = () => {
-    setLoginRequest(true)
+    setauthRequest(true)
   }
 
   const setUserLoggedIn = (user: User) => {
     setUserIn(user)
-    setLoginRequest(false)
+    setauthRequest(false)
   }
 
   const cancelLogin = () => {
-    setLoginRequest(false)
+    setauthRequest(false)
   } 
+
   
   return (
     <main className={classNames.mainNoPadding}>
@@ -48,11 +74,19 @@ export default function Home() {
       { 
         isUserIn && <MenuUserComponant di={userDi} />   
       }
-      {
-        loginRequest && <SignUpComponant setUserIn={setUserLoggedIn} onCancel={cancelLogin}/> 
+      { 
+        isUserIn && <p>{isUserIn.email}</p>   
       }
       {
-        !isUserIn && !loginRequest && <MenuVisitorComponant di={visitorDi} onLogin={startLogin}/>
+        authRequest && (
+          
+            <AuthComponant setUserIn={setUserLoggedIn} onCancel={cancelLogin}/>
+          
+          )
+        
+      }
+      {
+        !authRequest && !isUserIn && <MenuVisitorComponant di={visitorDi} onLogin={startLogin}/>
       }
       
     </main>

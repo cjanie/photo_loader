@@ -1,8 +1,8 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import InputComponant from "../global/InputComponant"
 import { classNames } from "../style/classNames"
-import { createUserWithEmailAndPassword } from "firebase/auth"
-import { auth } from "@/app/firebase/firebase-config"
+import { User } from "@/app/gateways/LoginGateway"
+import { firebaseSignUpAdapter } from "@/app/firebase/auth/firebaseSignUpAdapter"
 
 interface SignUp {
     setUserIn : (user: User) => void,
@@ -30,20 +30,17 @@ export default function SignUpComponant(props: SignUp) {
     }
 
     const signUp = (email: string, password: string) => {
-        createUserWithEmailAndPassword(auth, email, password)
-      .then(authUser => {
-        console.log("Success. The user is created in Firebase")
-        const user = {email: authUser.user.email}
+        firebaseSignUpAdapter.signUp(email, password)
+      .then(user => {
         props.setUserIn(user);
       })
       .catch(error => {
-        // An error occurred. Set error message to be displayed to user
         setError(error.message)
       });
     }
 
     return (
-        <div className={classNames.containerFlexCenter}>
+        <div>
             <form onSubmit={onSubmit} className="flex flex-col">
                 <div className="p-2">
                     <InputComponant label="email" onchange={(e) => onEmailFileInputChange(e)}/>
