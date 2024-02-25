@@ -8,6 +8,7 @@ import { MenuUserComponant } from './componants/MenuUserComponant'
 import { firebaseLoginAdapter } from './firebase/auth/firebaseLoginAdapter'
 import { User } from './gateways/LoginGateway'
 import LoginComponant from './componants/auth/LoginComponant'
+import SignUpComponant from './componants/auth/SignUpComponant'
 
 
 export default function Home() {
@@ -48,7 +49,7 @@ export default function Home() {
         isUserIn && <MenuUserComponant di={userDi} />   
       }
       {
-        loginRequest && <LoginComponant setUserIn={setUserLoggedIn} onCancel={cancelLogin}/> 
+        loginRequest && <SignUpComponant setUserIn={setUserLoggedIn} onCancel={cancelLogin}/> 
       }
       {
         !isUserIn && !loginRequest && <MenuVisitorComponant di={visitorDi} onLogin={startLogin}/>
